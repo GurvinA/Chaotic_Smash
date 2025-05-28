@@ -25,6 +25,6 @@ const homeHandler: RequestHandler = (_req, res) => {
 }
 app.get('/', homeHandler)
 
-httpServer.listen(3000, () => {
-  console.log('Server listening on http://localhost:3000')
+httpServer.listen(4050, () => {
+  console.log('Server listening on http://localhost:4050')
 })
