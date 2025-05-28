@@ -37,6 +37,44 @@
       </v-col>
     </v-row>
 
+    <v-row>
+      <v-col cols="12">
+        <h3>Select Your Locations</h3>
+        <v-row>
+          <v-col
+            v-for="stage in locations"
+            :key="stage"
+            cols="3"
+            class="text-center"
+          >
+            <v-btn
+              :color="selectedLocations.includes(stage) ? 'secondary' : 'grey'"
+              @click="toggleLocation(stage)"
+              block
+            >
+              {{ stage }}
+            </v-btn>
+          </v-col>
+        </v-row>
+      </v-col>
+    </v-row>
+
+    <v-row>
+      <v-col cols="12">
+        <h3>Your Location Deck</h3>
+        <div class="location-pile">
+          <div
+            v-for="(stage, i) in selectedLocations"
+            :key="stage"
+            class="location-card"
+            :style="{ left: `${i * 30}px` }"
+          >
+            {{ stage }}
+          </div>
+        </div>
+      </v-col>
+    </v-row>
+
     </v-container>
   </template>
 
@@ -45,6 +83,26 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
+
+const locations = [
+  "Final Destination", "Battlefield", "Smashville", "Pokemon Stadium 2",
+  "Town and City", "Lylat Cruise", "Yoshi's Island", "Kalos League",
+  "WarioWare Inc", "Dream Land", "Castle Siege", "Frigate Orpheon"
+  // Add more if you'd like
+]
+
+const selectedLocations = ref<string[]>([])
+
+function toggleLocation(stage: string) {
+  const index = selectedLocations.value.indexOf(stage)
+  if (index === -1) {
+    if (selectedLocations.value.length < 5) {
+      selectedLocations.value.push(stage)
+    }
+  } else {
+    selectedLocations.value.splice(index, 1)
+  }
+}
 
 const characters = [
     "Mario", "Donkey Kong", "Link", "Samus", "Dark Samus", "Yoshi", "Kirby", "Fox", "Pikachu", "Luigi",
@@ -76,15 +134,38 @@ function goToGame() {
 }
 </script>
   
-  <style scoped>
+<style scoped>
   .slot-box {
     width: 100px;
     height: 100px;
     border: 2px dotted white;
     margin: 10px;
   }
+
   .v-col{
     margin: 10px;
   }
-  </style>
+
+  .location-pile {
+    position: relative;
+    height: 120px;
+  }
+
+  .location-card {
+    position: absolute;
+    top: 0;
+    width: 120px;
+    height: 100px;
+    background-color: #424242;
+    color: white;
+    border: 2px solid white;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+</style>
   
