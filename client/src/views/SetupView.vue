@@ -1,7 +1,7 @@
 <template>
     <v-container class="fill-height">
 
-      <v-row justify="center">
+      <!-- <v-row justify="center">
         <v-col cols="2" class="d-flex flex-column align-center justify-center">
           <div v-for="n in 3" :key="'col1-' + n" class="slot-box"></div>
         </v-col>
@@ -13,7 +13,8 @@
         <v-col cols="2" class="d-flex flex-column align-center justify-center">
           <div class="slot-box"></div>
         </v-col>
-      </v-row>
+      </v-row> -->
+      <Triangle v-model:selectedCharacters="selectedCharacters" />
 
       <v-row>
       <v-col cols="12">
@@ -27,7 +28,9 @@
           >
             <v-btn
               :color="selectedCharacters.includes(char) ? 'primary' : 'grey'"
-              @click="toggleCharacter(char)"
+              draggable="true"
+              @dragstart="handleDragStart($event, char)"
+              @dragend="handleDragEnd"
               block
             >
               {{ char }}
@@ -81,6 +84,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import Triangle from '../components/Triangle.vue'
 
 const router = useRouter()
 
@@ -118,14 +122,18 @@ const characters = [
 
 const selectedCharacters = ref<string[]>([])
 
-function toggleCharacter(char: string) {
-  const index = selectedCharacters.value.indexOf(char)
-  if (index === -1) {
-    if (selectedCharacters.value.length < 6) {
-      selectedCharacters.value.push(char)
+function handleDragStart(event: DragEvent, character: string) {
+  if (event.dataTransfer) {
+    event.dataTransfer.setData('character', character)
+    if (event.target instanceof HTMLElement) {
+      event.target.classList.add('dragging')
     }
-  } else {
-    selectedCharacters.value.splice(index, 1)
+  }
+}
+
+function handleDragEnd(event: DragEvent) {
+  if (event.target instanceof HTMLElement) {
+    event.target.classList.remove('dragging')
   }
 }
 
@@ -135,16 +143,16 @@ function goToGame() {
 </script>
   
 <style scoped>
-  .slot-box {
+  /* .slot-box {
     width: 100px;
     height: 100px;
-    border: 2px dotted white;
+    border: 2px dotted black;
     margin: 10px;
   }
 
   .v-col{
     margin: 10px;
-  }
+  } */
 
   .location-pile {
     position: relative;
@@ -166,6 +174,10 @@ function goToGame() {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+  }
+
+  .v-btn.dragging {
+    opacity: 0.5;
   }
 </style>
   
