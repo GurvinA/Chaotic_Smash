@@ -2,7 +2,7 @@
     <v-container class="fill-height">
 
       <v-col cols="12">
-        <Triangle v-model:selectedCharacters="selectedCharacters" />
+        <TriangleRight v-model:selectedCharacters="selectedCharacters" />
       </v-col>
       
 
@@ -81,7 +81,8 @@
 import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useGameStore } from '../stores/gameStore'
-import Triangle from '../components/Triangle.vue'
+import TriangleLeft from '../components/TriangleLeft.vue'
+import TriangleRight from '../components/TriangleRight.vue'
 
 const store = useGameStore()
 const route = useRoute()
