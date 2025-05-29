@@ -1,20 +1,10 @@
 <template>
     <v-container class="fill-height">
 
-      <!-- <v-row justify="center">
-        <v-col cols="2" class="d-flex flex-column align-center justify-center">
-          <div v-for="n in 3" :key="'col1-' + n" class="slot-box"></div>
-        </v-col>
-  
-        <v-col cols="2" class="d-flex flex-column align-center justify-center">
-          <div v-for="n in 2" :key="'col2-' + n" class="slot-box"></div>
-        </v-col>
-  
-        <v-col cols="2" class="d-flex flex-column align-center justify-center">
-          <div class="slot-box"></div>
-        </v-col>
-      </v-row> -->
-      <Triangle v-model:selectedCharacters="selectedCharacters" />
+      <v-col cols="12">
+        <Triangle v-model:selectedCharacters="selectedCharacters" />
+      </v-col>
+      
 
       <v-row>
       <v-col cols="12">
@@ -78,15 +68,26 @@
       </v-col>
     </v-row>
 
+    <v-row>
+      <v-btn color="success" class="mt-4" @click="lockIn">Lock In</v-btn>
+    </v-row>
+    
+
+
     </v-container>
   </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
+import { useGameStore } from '../stores/gameStore'
 import Triangle from '../components/Triangle.vue'
 
+const store = useGameStore()
+const route = useRoute()
 const router = useRouter()
+
+const isPlayer1 = route.path.includes('player1')
 
 const locations = [
   "Final Destination", "Battlefield", "Smashville", "Pokemon Stadium 2",
@@ -137,22 +138,20 @@ function handleDragEnd(event: DragEvent) {
   }
 }
 
-function goToGame() {
-  router.push('/game')
+
+function lockIn() {
+  const playerNum = isPlayer1 ? 1 : 2
+  store.setPlayerData(playerNum, [...selectedCharacters.value], [...selectedLocations.value])
+
+  if (isPlayer1) {
+    router.push('/setup/player2')
+  } else {
+    router.push('/game')
+  }
 }
 </script>
   
 <style scoped>
-  /* .slot-box {
-    width: 100px;
-    height: 100px;
-    border: 2px dotted black;
-    margin: 10px;
-  }
-
-  .v-col{
-    margin: 10px;
-  } */
 
   .location-pile {
     position: relative;

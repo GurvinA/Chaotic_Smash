@@ -28,9 +28,14 @@ const router = createRouter({
       component: GameView,
     },
     {
-      path: '/setup',
-      name: 'setup',
-      component: SetupView,
+      path: '/setup/player1',
+      name: 'SetupPlayer1',
+      component: SetupView
+    },
+    {
+      path: '/setup/player2',
+      name: 'SetupPlayer2',
+      component: SetupView
     },
     {
       path: '/lobby',

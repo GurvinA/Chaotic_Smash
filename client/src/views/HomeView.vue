@@ -4,7 +4,7 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 
 function startLocal() {
-  router.push('/setup')
+  router.push('/setup/player1')
 }
 
 function goToLobby() {
