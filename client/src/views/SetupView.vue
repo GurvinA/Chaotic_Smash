@@ -57,7 +57,6 @@ import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useGameStore } from '../stores/gameStore'
 import Board from '@/components/Board.vue'
-import Locations from '@/components/Locations.vue'
 
 const store = useGameStore()
 const route = useRoute()

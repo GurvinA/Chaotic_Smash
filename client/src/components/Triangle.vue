@@ -186,7 +186,4 @@ function handleDragEnd(event: DragEvent) {
   opacity: 0.5;
 }
 
-.v-col {
-  margin: 14px;
-}
 </style>

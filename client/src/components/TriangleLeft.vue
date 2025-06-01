@@ -154,12 +154,12 @@ function handleDragEnd(event: DragEvent) {
 .slot-box {
   width: 100px;
   height: 100px;
-  border: 2px dotted gray;
+  border: 2px dotted rgb(20, 20, 20);
   margin: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: rgba(0, 0, 120, 0.05);
+  background-color: rgb(156, 156, 171);
   transition: all 0.2s ease;
   position: relative;
   z-index: 2; /* Higher than container */
@@ -167,7 +167,7 @@ function handleDragEnd(event: DragEvent) {
 
 .slot-box.has-character {
   border-style: solid;
-  background-color: rgba(200, 0, 0, 0.1);
+  background-color: rgba(200, 0, 0, 0.536);
 }
 
 .character-chip {
@@ -186,7 +186,4 @@ function handleDragEnd(event: DragEvent) {
   opacity: 0.5;
 }
 
-.v-col {
-  margin: 14px;
-}
 </style>

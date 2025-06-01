@@ -1,12 +1,18 @@
 <template>
-  <TriangleRight
-    :selectedCharacters="selectedCharacters"
-    @update:selectedCharacters="onUpdateSelectedCharacters"
-  />
-  <Locations
-    :selectedLocations="selectedLocations"
-    @update:selectedCharacters="onUpdateSelectedLocations"
-  />
+    <div class="board-wrapper">
+        <div class="triangle">
+            <TriangleRight
+                :selectedCharacters="selectedCharacters"
+                @update:selectedCharacters="onUpdateSelectedCharacters"
+            />
+        </div>"
+        
+        <Locations
+            :selectedLocations="selectedLocations"
+            @update:selectedCharacters="onUpdateSelectedLocations"
+        />
+    </div>
+  
 </template>
 
 <script setup lang="ts">
@@ -34,3 +40,22 @@ function onUpdateSelectedLocations(value: string[]) {
 }
 
 </script>
+
+<style scoped>
+
+    .board-wrapper {
+        background-color: #3ca49c;
+        border: 3.5px solid yellow;
+        border-radius: 40px;
+        height: 600px;
+        width: 700px;
+        color: black;
+
+    }
+
+    .triangle {
+        margin-top: 30px;
+
+    }
+
+</style>
