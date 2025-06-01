@@ -79,7 +79,7 @@ function handleDragEnd(event: DragEvent) {
   >
     <v-row justify="center">
       <!-- First column (1 slots) -->
-      <v-col cols="2" class="d-flex flex-column align-center justify-center">
+      <v-col cols="2">
         <div
           class="slot-box"
           :class="{ 'has-character': slotAssignments[5] }"
@@ -99,7 +99,7 @@ function handleDragEnd(event: DragEvent) {
       </v-col>
 
       <!-- Second column (2 slots) -->
-      <v-col cols="2" class="d-flex flex-column align-center justify-center">
+      <v-col cols="2">
         <div
           v-for="n in 2"
           :key="'col2-' + n"
@@ -121,7 +121,7 @@ function handleDragEnd(event: DragEvent) {
       </v-col>
 
       <!-- Third column (3 slot) -->
-      <v-col cols="2" class="d-flex flex-column align-center justify-center">
+      <v-col cols="2">
         <div
           v-for="n in 3"
           :key="'col1-' + n"
@@ -184,6 +184,14 @@ function handleDragEnd(event: DragEvent) {
 
 .character-chip.dragging {
   opacity: 0.5;
+}
+
+.v-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 26px;
 }
 
 </style>

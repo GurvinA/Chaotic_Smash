@@ -1,16 +1,23 @@
 <template>
     <div class="board-wrapper">
-        <div class="triangle">
-            <TriangleRight
-                :selectedCharacters="selectedCharacters"
-                @update:selectedCharacters="onUpdateSelectedCharacters"
-            />
-        </div>"
-        
-        <Locations
-            :selectedLocations="selectedLocations"
-            @update:selectedCharacters="onUpdateSelectedLocations"
-        />
+        <v-row>
+            <v-col cols="7">
+                <div class="triangle">
+                    <TriangleRight
+                        :selectedCharacters="selectedCharacters"
+                        @update:selectedCharacters="onUpdateSelectedCharacters"
+                    />
+                </div>"
+            </v-col>
+            <v-col cols="5">
+                <div class="locations">
+                    <Locations
+                        :selectedLocations="selectedLocations"
+                        @update:selectedCharacters="onUpdateSelectedLocations"
+                    />
+                </div>
+            </v-col>
+        </v-row>
     </div>
   
 </template>
@@ -50,12 +57,12 @@ function onUpdateSelectedLocations(value: string[]) {
         height: 600px;
         width: 700px;
         color: black;
-
+        display: flexbox;
     }
 
     .triangle {
         margin-top: 30px;
-
+        /* margin-left: -250px; */
     }
 
 </style>
