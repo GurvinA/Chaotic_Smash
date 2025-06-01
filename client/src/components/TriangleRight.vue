@@ -191,7 +191,7 @@ function handleDragEnd(event: DragEvent) {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin: 26px;
+  margin: 24px;
 }
 
 </style>
