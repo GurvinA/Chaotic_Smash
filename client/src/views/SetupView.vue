@@ -72,7 +72,6 @@ import { useRoute, useRouter } from 'vue-router'
 import { useGameStore } from '../stores/gameStore'
 import Board from '@/components/Board.vue'
 import SelectorDeck from '@/components/SelectorDeck.vue'
-import WelcomeItem from '@/components/WelcomeItem.vue'
 
 const store = useGameStore()
 const route = useRoute()
