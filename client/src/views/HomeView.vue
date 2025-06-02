@@ -13,7 +13,7 @@ function goToLobby() {
 </script>
 
 <template>
-  <v-container class="fill-height" justify="center" align="center">
+  <v-container>
     <v-row>
       <v-col cols="12" class="text-center">
         <h1>Chaotic Smash</h1>

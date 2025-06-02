@@ -1,9 +1,22 @@
 <template>
-  <v-row>
-    <Board v-model:selectedCharacters="selectedCharacters":selectedLocations="selectedLocations" />
-  </v-row>
+  <div class="setup-wrapper">
 
-  <v-row>
+  
+
+    <v-row>
+      <v-col>
+        <Board v-model:selectedCharacters="selectedCharacters":selectedLocations="selectedLocations" />
+      </v-col>
+      <v-col>
+        <SelectorDeck/>
+      </v-col>
+      
+    </v-row>
+
+
+  
+
+  <!-- <v-row>
     <h3>Select Your Characters</h3>
     <v-row>
       <v-col
@@ -23,9 +36,9 @@
         </v-btn>
       </v-col>
     </v-row>
-  </v-row>
+  </v-row> -->
 
-  <v-row>
+  <!-- <v-row>
     <v-col cols="12">
       <h3>Select Your Locations</h3>
       <v-row>
@@ -49,7 +62,8 @@
 
   <v-row>
     <v-btn color="success" class="mt-4" @click="lockIn">Lock In</v-btn>
-  </v-row>
+  </v-row> -->
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -57,6 +71,8 @@ import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useGameStore } from '../stores/gameStore'
 import Board from '@/components/Board.vue'
+import SelectorDeck from '@/components/SelectorDeck.vue'
+import WelcomeItem from '@/components/WelcomeItem.vue'
 
 const store = useGameStore()
 const route = useRoute()
@@ -131,5 +147,12 @@ function lockIn() {
 
 .v-row {
   margin: 10px;
+  justify-content: start;
 }
+
+.setup-wrapper {
+  justify-content: start;
+}
+
+
 </style>

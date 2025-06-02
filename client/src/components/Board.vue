@@ -7,7 +7,7 @@
                         :selectedCharacters="selectedCharacters"
                         @update:selectedCharacters="onUpdateSelectedCharacters"
                     />
-                </div>"
+                </div>
             </v-col>
             <v-col cols="5">
                 <div class="locations">
@@ -62,7 +62,6 @@ function onUpdateSelectedLocations(value: string[]) {
 
     .triangle {
         margin-top: 30px;
-        /* margin-left: -250px; */
     }
 
 </style>
