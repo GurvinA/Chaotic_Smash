@@ -106,7 +106,7 @@ const characters = ref([
   { name: "Robin", image: "robin.png", stats: {} },
   { name: "Shulk", image: "shulk.png", stats: {} },
   { name: "Bowser Jr.", image: "bowser_jr.png", stats: {} },
-  { name: "Duck Hunt Duo", image: "duck_hunt_duo.png", stats: {} },
+  { name: "Duck Hunt", image: "duck_hunt.png", stats: {} },
   { name: "Ryu", image: "ryu.png", stats: {} },
   { name: "Ken", image: "ken.png", stats: {} },
   { name: "Cloud", image: "cloud.png", stats: {} },
@@ -292,72 +292,6 @@ function toggleLocation(location: Location) {
 }
 
 
-
-
-
-
-// const locations = [
-//   "Final Destination", "Battlefield", "Smashville", "Pokemon Stadium 2",
-//   "Town and City", "Lylat Cruise", "Yoshi's Island", "Kalos League",
-//   "WarioWare Inc", "Dream Land", "Castle Siege", "Frigate Orpheon"
-// ]
-
-// const selectedLocations = ref<string[]>([])
-
-// function toggleLocation(stage: string) {
-//   const index = selectedLocations.value.indexOf(stage)
-//   if (index === -1) {
-//     if (selectedLocations.value.length < 5) {
-//       selectedLocations.value.push(stage)
-//     }
-//   } else {
-//     selectedLocations.value.splice(index, 1)
-//   }
-// }
-
-// const characters = [
-//   "Mario", "Donkey Kong", "Link", "Samus", "Dark Samus", "Yoshi", "Kirby", "Fox", "Pikachu", "Luigi",
-//   "Ness", "Captain Falcon", "Jigglypuff", "Peach", "Daisy", "Bowser", "Ice Climbers", "Sheik", "Zelda", "Dr. Mario",
-//   "Pichu", "Falco", "Marth", "Lucina", "Young Link", "Ganondorf", "Mewtwo", "Roy", "Chrom", "Mr. Game & Watch",
-//   "Meta Knight", "Pit", "Dark Pit", "Zero Suit Samus", "Wario", "Snake", "Ike", "Pokemon Trainer", "Diddy Kong", "Lucas",
-//   "Sonic", "King Dedede", "Olimar", "Lucario", "R.O.B.", "Toon Link", "Wolf", "Villager", "Mega Man", "Wii Fit Trainer",
-//   "Rosalina & Luma", "Little Mac", "Greninja", "Palutena", "Pac-Man", "Robin", "Shulk", "Bowser Jr.", "Duck Hunt Duo", "Ryu",
-//   "Ken", "Cloud", "Corrin", "Bayonetta", "Inkling", "Ridley", "Simon", "Richter", "King K. Rool", "Isabelle", "Incineroar",
-//   "Piranha Plant", "Joker", "Hero", "Banjo & Kazooie", "Terry", "Byleth", "Min Min", "Steve", "Sephiroth", "Pyra/Mythra",
-//   "Kazuya", "Sora", "Mii Brawler", "Mii Swordfighter", "Mii Gunner, Random"
-// ]
-
-// const selectedCharacters = ref<string[]>([])
-
-// function handleDragStart(event: DragEvent, character: string) {
-//   if (event.dataTransfer) {
-//     event.dataTransfer.setData('character', character)
-//     if (event.target instanceof HTMLElement) {
-//       event.target.classList.add('dragging')
-//     }
-//   }
-// }
-
-// function handleDragEnd(event: DragEvent) {
-//   if (event.target instanceof HTMLElement) {
-//     event.target.classList.remove('dragging')
-//   }
-// }
-
-
-
-// const isPlayer1 = route.path.includes('player1')
-
-// function lockIn() {
-//   const playerNum = isPlayer1 ? 1 : 2
-//   store.setPlayerData(playerNum, [...selectedCharacters.value], [...selectedLocations.value])
-
-//   if (isPlayer1) {
-//     router.push('/setup/player2')
-//   } else {
-//     router.push('/game')
-//   }
-// }
 </script>
 
 

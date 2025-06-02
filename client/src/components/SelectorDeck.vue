@@ -21,7 +21,7 @@
                 :value="index"
               >
                 <div class="card">
-                  <img :src="char.image" alt="Character image" class="card-image" />
+                  <img :src="`/characters/${char.image}`" alt="Character image" class="card-image" />
                   <h3>{{ char.name }}</h3>
                   <div class="stats">
                     <div
@@ -174,7 +174,7 @@ function addWheelListenerForTab(tabName: 'characters' | 'locations') {
 
         setTimeout(() => {
             wheelLocked = false
-        }, 125)
+        }, 10)
     }
 
   container.addEventListener('wheel', handler, { passive: false })
