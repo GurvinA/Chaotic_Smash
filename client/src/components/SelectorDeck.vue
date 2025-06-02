@@ -37,8 +37,9 @@
       dark
     >
       <v-tab value="characters">Characters</v-tab>
-      <v-spacer/>
       <v-tab value="locations">Locations</v-tab>
+      <v-tab value="items">Items</v-tab>
+      <v-tab value="rules">Rules</v-tab>
     </v-tabs>
   </div>
 </template>
@@ -92,8 +93,6 @@ const unselectedLocations = computed(() =>
 
 .deck-tabs {
   border-top: 2px solid #000;
-  margin-right: 20px;
-  margin-left: 20px;
 }
 
 </style>
