@@ -4,7 +4,7 @@
     <div class="location-pile">
       <div
         v-for="(stage, i) in selectedLocations"
-        :key="stage"
+        :key="stage.name"
         class="location-card"
         :style="{ left: `${i * 30}px` }"
       >
@@ -15,8 +15,13 @@
 </template>
 
 <script setup lang="ts">
+
+
+import type { Location } from '@/Types';
+
+
 defineProps<{
-  selectedLocations: string[]
+  selectedLocations: Location[]
 }>()
 </script>
 

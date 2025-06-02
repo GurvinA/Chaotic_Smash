@@ -1,69 +1,62 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import type { Character } from '@/Types'
 
-interface Props {
-  selectedCharacters: string[]
-}
-
-const props = defineProps<Props>()
-const emit = defineEmits<{
-  (e: 'update:selectedCharacters', value: string[]): void
+const props = defineProps<{
+  selectedCharacters: Character[]
 }>()
 
-// Track which character is in which slot (index corresponds to slot position)
-const slotAssignments = ref<(string | null)[]>([null, null, null, null, null, null])
+const emit = defineEmits<{
+  (e: 'update:selectedCharacters', value: Character[]): void
+}>()
 
-// Handle drop event on slots
+const slotAssignments = ref<(Character | null)[]>([null, null, null, null, null, null])
+
 function handleSlotDrop(event: DragEvent, slotIndex: number) {
   event.preventDefault()
-  event.stopPropagation() // Prevent event from bubbling to container
-  const character = event.dataTransfer?.getData('character')
-  if (character) {
-    // Remove character from its previous slot if it exists
-    const prevIndex = slotAssignments.value.indexOf(character)
+  event.stopPropagation()
+
+  const characterName = event.dataTransfer?.getData('character')
+  if (characterName) {
+    const character = props.selectedCharacters.find(c => c.name === characterName)
+    if (!character) return
+
+    const prevIndex = slotAssignments.value.findIndex(c => c?.name === characterName)
     if (prevIndex !== -1) {
       slotAssignments.value[prevIndex] = null
     }
-    // Assign character to new slot
+
     slotAssignments.value[slotIndex] = character
-    // Update parent component
-    emit('update:selectedCharacters', slotAssignments.value.filter(char => char !== null) as string[])
+    emit('update:selectedCharacters', slotAssignments.value.filter(c => c !== null) as Character[])
   }
 }
 
-// Handle drop event on container (for removing characters)
 function handleContainerDrop(event: DragEvent) {
   event.preventDefault()
-  const character = event.dataTransfer?.getData('character')
-  if (character) {
-    // Find and remove the character from its slot
-    const index = slotAssignments.value.indexOf(character)
+  const characterName = event.dataTransfer?.getData('character')
+  if (characterName) {
+    const index = slotAssignments.value.findIndex(c => c?.name === characterName)
     if (index !== -1) {
       slotAssignments.value[index] = null
-      // Update parent component
-      emit('update:selectedCharacters', slotAssignments.value.filter(char => char !== null) as string[])
+      emit('update:selectedCharacters', slotAssignments.value.filter(c => c !== null) as Character[])
     }
   }
 }
 
-// Handle drag over event
 function handleDragOver(event: DragEvent) {
   event.preventDefault()
 }
 
-// Handle drag start for removing character
 function handleDragStart(event: DragEvent, slotIndex: number) {
   const character = slotAssignments.value[slotIndex]
   if (character) {
-    event.dataTransfer?.setData('character', character)
-    // Add visual feedback
+    event.dataTransfer?.setData('character', character.name)
     if (event.target instanceof HTMLElement) {
       event.target.classList.add('dragging')
     }
   }
 }
 
-// Handle drag end
 function handleDragEnd(event: DragEvent) {
   if (event.target instanceof HTMLElement) {
     event.target.classList.remove('dragging')
@@ -72,57 +65,50 @@ function handleDragEnd(event: DragEvent) {
 </script>
 
 <template>
-  <div 
-    class="triangle-container"
-    @dragover="handleDragOver"
-    @drop="handleContainerDrop"
-  >
+  <div class="triangle-container" @dragover="handleDragOver" @drop="handleContainerDrop">
     <v-row justify="center">
-      <!-- First column (3 slots) -->
       <v-col cols="2">
         <div
           v-for="n in 3"
           :key="'col1-' + n"
           class="slot-box"
-          :class="{ 'has-character': slotAssignments[n-1] }"
+          :class="{ 'has-character': slotAssignments[n - 1] }"
           @dragover="handleDragOver"
-          @drop="handleSlotDrop($event, n-1)"
+          @drop="handleSlotDrop($event, n - 1)"
         >
           <div
-            v-if="slotAssignments[n-1]"
+            v-if="slotAssignments[n - 1]"
             class="character-chip"
             draggable="true"
-            @dragstart="handleDragStart($event, n-1)"
+            @dragstart="handleDragStart($event, n - 1)"
             @dragend="handleDragEnd"
           >
-            {{ slotAssignments[n-1] }}
+            {{ slotAssignments[n - 1]?.name }}
           </div>
         </div>
       </v-col>
-
-      <!-- Second column (2 slots) -->
+    
       <v-col cols="2">
         <div
           v-for="n in 2"
           :key="'col2-' + n"
           class="slot-box"
-          :class="{ 'has-character': slotAssignments[n+2] }"
+          :class="{ 'has-character': slotAssignments[n + 2] }"
           @dragover="handleDragOver"
-          @drop="handleSlotDrop($event, n+2)"
+          @drop="handleSlotDrop($event, n + 2)"
         >
           <div
-            v-if="slotAssignments[n+2]"
+            v-if="slotAssignments[n + 2]"
             class="character-chip"
             draggable="true"
-            @dragstart="handleDragStart($event, n+2)"
+            @dragstart="handleDragStart($event, n + 2)"
             @dragend="handleDragEnd"
           >
-            {{ slotAssignments[n+2] }}
+            {{ slotAssignments[n + 2]?.name }}
           </div>
         </div>
       </v-col>
 
-      <!-- Third column (1 slot) -->
       <v-col cols="2">
         <div
           class="slot-box"
@@ -137,7 +123,7 @@ function handleDragEnd(event: DragEvent) {
             @dragstart="handleDragStart($event, 5)"
             @dragend="handleDragEnd"
           >
-            {{ slotAssignments[5] }}
+            {{ slotAssignments[5]?.name }}
           </div>
         </div>
       </v-col>
@@ -162,7 +148,7 @@ function handleDragEnd(event: DragEvent) {
   background-color: rgb(156, 156, 171);
   transition: all 0.2s ease;
   position: relative;
-  z-index: 2; /* Higher than container */
+  z-index: 2;
 }
 
 .slot-box.has-character {
@@ -177,9 +163,9 @@ function handleDragEnd(event: DragEvent) {
   border-radius: 16px;
   cursor: move;
   user-select: none;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   position: relative;
-  z-index: 3; /* Highest z-index */
+  z-index: 3;
 }
 
 .character-chip.dragging {
@@ -193,6 +179,4 @@ function handleDragEnd(event: DragEvent) {
   justify-content: center;
   margin: 24px;
 }
-
-
 </style>

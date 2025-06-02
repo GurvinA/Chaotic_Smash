@@ -13,7 +13,7 @@
                 <div class="locations">
                     <Locations
                         :selectedLocations="selectedLocations"
-                        @update:selectedCharacters="onUpdateSelectedLocations"
+                        @update:selectedLocations="onUpdateSelectedLocations"
                     />
                 </div>
             </v-col>
@@ -27,22 +27,23 @@
 import TriangleLeft from './TriangleLeft.vue';
 import TriangleRight from './TriangleRight.vue';
 import Locations from './Locations.vue';
+import type { Character, Location } from '@/Types';
 
 const props = defineProps<{
-  selectedCharacters: string[],
-  selectedLocations: string[]
+  selectedCharacters: Character[],
+  selectedLocations: Location[]
 }>()
 
 const emit = defineEmits<{
-  (e: 'update:selectedCharacters', value: string[]): void,
-  (e: 'update:selectedLocations', value: string[]): void
+  (e: 'update:selectedCharacters', value: Character[]): void,
+  (e: 'update:selectedLocations', value: Location[]): void
 }>()
 
-function onUpdateSelectedCharacters(value: string[]) {
+function onUpdateSelectedCharacters(value: Character[]) {
   emit('update:selectedCharacters', value)
 }
 
-function onUpdateSelectedLocations(value: string[]) {
+function onUpdateSelectedLocations(value: Location[]) {
   emit('update:selectedLocations', value)
 }
 
