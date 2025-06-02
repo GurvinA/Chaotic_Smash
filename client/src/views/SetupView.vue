@@ -16,7 +16,7 @@
 
   
 
-  <!-- <v-row>
+  <v-row>
     <h3>Select Your Characters</h3>
     <v-row>
       <v-col
@@ -36,9 +36,9 @@
         </v-btn>
       </v-col>
     </v-row>
-  </v-row> -->
+  </v-row>
 
-  <!-- <v-row>
+  <v-row>
     <v-col cols="12">
       <h3>Select Your Locations</h3>
       <v-row>
@@ -62,7 +62,7 @@
 
   <v-row>
     <v-btn color="success" class="mt-4" @click="lockIn">Lock In</v-btn>
-  </v-row> -->
+  </v-row>
   </div>
 </template>
 
