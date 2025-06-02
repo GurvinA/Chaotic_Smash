@@ -5,10 +5,18 @@
 
     <v-row>
       <v-col>
-        <Board v-model:selectedCharacters="selectedCharacters":selectedLocations="selectedLocations" />
+        <Board 
+          v-model:selectedCharacters="selectedCharacters"
+          :selectedLocations="selectedLocations" 
+        />
       </v-col>
       <v-col>
-        <SelectorDeck/>
+        <SelectorDeck
+          :characters="characters"
+          :locations="locations"
+          :selectedCharacters="selectedCharacters"
+          :selectedLocations="selectedLocations"
+        />
       </v-col>
       
     </v-row>
