@@ -15,25 +15,28 @@
             </v-btn>
 
             <v-window v-model="characterIndex" direction="vertical" class="card-window no-arrows" show-arrows="false">
-              <v-window-item
-                v-for="(char, index) in unselectedCharacters"
-                :key="char.name"
-                :value="index"
-              >
-                <div class="card">
-                  <img :src="`/characters/${char.image}`" alt="Character image" class="card-image" />
-                  <h3>{{ char.name }}</h3>
-                  <div class="stats">
-                    <div
-                      v-for="(value, key) in char.stats"
-                      :key="key"
-                      class="stat"
-                    >
-                      {{ key }}: {{ value }}
+              <div class="card-wrapper">
+                <v-window-item
+                    v-for="(char, index) in unselectedCharacters"
+                    :key="char.name"
+                    :value="index"
+                >
+                
+                    <div class="card">
+                        <img :src="`/characters/${char.image}`" alt="Character image" class="card-image" />
+                        <h3>{{ char.name }}</h3>
+                        <div class="stats">
+                            <div
+                            v-for="(value, key) in char.stats"
+                            :key="key"
+                            class="stat"
+                            >
+                            {{ key }}: {{ value }}
+                            </div>
+                        </div>
                     </div>
-                  </div>
-                </div>
-              </v-window-item>
+                </v-window-item>
+              </div>
             </v-window>
 
             <v-btn
@@ -65,18 +68,20 @@
                 :key="loc.name"
                 :value="index"
               >
-                <div class="card">
-                  <img :src="loc.image" alt="Location image" class="card-image" />
-                  <h3>{{ loc.name }}</h3>
-                  <div class="stats">
-                    <div
-                      v-for="(value, key) in loc.stats"
-                      :key="key"
-                      class="stat"
-                    >
-                      {{ key }}: {{ value }}
+                <div class="card-wrapper">
+                    <div class="card">
+                        <img :src="loc.image" alt="Location image" class="card-image" />
+                        <h3>{{ loc.name }}</h3>
+                        <div class="stats">
+                            <div
+                            v-for="(value, key) in loc.stats"
+                            :key="key"
+                            class="stat"
+                            >
+                            {{ key }}: {{ value }}
+                            </div>
+                        </div>
                     </div>
-                  </div>
                 </div>
               </v-window-item>
             </v-window>
@@ -225,11 +230,12 @@ onMounted(() => {
   height: 100%;
   padding: 16px;
   text-align: center;
+  border: 1px solid red;
 }
 
 .card-image {
-  width: 100px;
-  height: 100px;
+  width: 200px;
+  height: 200px;
   object-fit: contain;
   margin-bottom: 12px;
 }
@@ -260,6 +266,13 @@ onMounted(() => {
   flex-grow: 1;
 }
 
+.card-wrapper {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .nav-btn {
   background-color: white;
   margin: 4px 0;
@@ -269,5 +282,6 @@ onMounted(() => {
 .no-arrows ::v-deep(.v-window__controls) {
   display: none !important;
 }
+
 
 </style>
