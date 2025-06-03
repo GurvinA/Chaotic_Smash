@@ -4,6 +4,7 @@
             <v-col cols="7">
                 <div class="triangle">
                     <TriangleRight
+                        :characters="characters"
                         :selectedCharacters="selectedCharacters"
                         @update:selectedCharacters="onUpdateSelectedCharacters"
                     />
@@ -32,6 +33,8 @@ import type { Character, Location } from '@/Types';
 const props = defineProps<{
   selectedCharacters: Character[],
   selectedLocations: Location[]
+  characters: Character[]
+  locations: Location[]
 }>()
 
 const emit = defineEmits<{

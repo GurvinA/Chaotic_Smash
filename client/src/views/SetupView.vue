@@ -8,6 +8,8 @@
         <Board 
           v-model:selectedCharacters="selectedCharacters"
           :selectedLocations="selectedLocations" 
+          :characters="characters"
+          :locations="locations"
         />
       </v-col>
       <v-col>

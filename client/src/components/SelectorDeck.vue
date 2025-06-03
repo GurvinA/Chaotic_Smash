@@ -280,7 +280,9 @@ function handleCardDragEnd(event: DragEvent) {
   width: 100%;
   height: 100%;
   object-fit: contain;
+  user-drag: none;
   -webkit-user-drag: none;
+  pointer-events: none;
 }
 
 .card-name {

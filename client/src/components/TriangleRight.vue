@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import type { Character } from '@/Types'
 
 const props = defineProps<{
+  characters: Character[]
   selectedCharacters: Character[]
 }>()
 
@@ -18,8 +19,12 @@ function handleSlotDrop(event: DragEvent, slotIndex: number) {
 
   const characterName = event.dataTransfer?.getData('character')
   if (characterName) {
-    const character = props.selectedCharacters.find(c => c.name === characterName)
-    if (!character) return
+    let character = props.selectedCharacters.find(c => c.name === characterName)
+    if (!character) {
+      character = props.characters.find(c => c.name === characterName)
+      if (!character) return
+      emit('update:selectedCharacters', [...props.selectedCharacters, character])
+    }
 
     const prevIndex = slotAssignments.value.findIndex(c => c?.name === characterName)
     if (prevIndex !== -1) {
@@ -27,7 +32,6 @@ function handleSlotDrop(event: DragEvent, slotIndex: number) {
     }
 
     slotAssignments.value[slotIndex] = character
-    emit('update:selectedCharacters', slotAssignments.value.filter(c => c !== null) as Character[])
   }
 }
 
@@ -72,16 +76,17 @@ function handleDragEnd(event: DragEvent) {
           class="slot-box"
           :class="{ 'has-character': slotAssignments[5] }"
           @dragover="handleDragOver"
-          @drop="handleSlotDrop($event, 5)"
+          @drop="(e) => handleSlotDrop(e, 5)"
         >
           <div
             v-if="slotAssignments[5]"
             class="character-chip"
             draggable="true"
-            @dragstart="handleDragStart($event, 5)"
+            @dragstart="(e) => handleDragStart(e, 5)"
             @dragend="handleDragEnd"
           >
-            {{ slotAssignments[5]?.name }}
+             <img :src="`/characters/${slotAssignments[5]?.image}`" 
+              alt="Character image" class="card-image" />
           </div>
         </div>
       </v-col>
@@ -93,16 +98,17 @@ function handleDragEnd(event: DragEvent) {
           class="slot-box"
           :class="{ 'has-character': slotAssignments[n + 2] }"
           @dragover="handleDragOver"
-          @drop="handleSlotDrop($event, n + 2)"
+          @drop="(e) => handleSlotDrop(e, n + 2)"
         >
           <div
             v-if="slotAssignments[n + 2]"
             class="character-chip"
             draggable="true"
-            @dragstart="handleDragStart($event, n + 2)"
+            @dragstart="(e) => handleDragStart(e, n + 2)"
             @dragend="handleDragEnd"
           >
-            {{ slotAssignments[n + 2]?.name }}
+            <img :src="`/characters/${slotAssignments[n+2]?.image}`" 
+              alt="Character image" class="card-image" />
           </div>
         </div>
       </v-col>
@@ -114,16 +120,17 @@ function handleDragEnd(event: DragEvent) {
           class="slot-box"
           :class="{ 'has-character': slotAssignments[n - 1] }"
           @dragover="handleDragOver"
-          @drop="handleSlotDrop($event, n - 1)"
+          @drop="(e) => handleSlotDrop(e, n - 1)"
         >
           <div
             v-if="slotAssignments[n - 1]"
             class="character-chip"
             draggable="true"
-            @dragstart="handleDragStart($event, n - 1)"
+            @dragstart="(e) => handleDragStart(e, n - 1)"
             @dragend="handleDragEnd"
           >
-            {{ slotAssignments[n - 1]?.name }}
+            <img :src="`/characters/${slotAssignments[n-1]?.image}`" 
+              alt="Character image" class="card-image" />
           </div>
         </div>
       </v-col>
@@ -157,13 +164,13 @@ function handleDragEnd(event: DragEvent) {
 }
 
 .character-chip {
-  background-color: #1976d2;
+  background-color: transparent;
   color: white;
   padding: 8px 12px;
   border-radius: 16px;
   cursor: move;
   user-select: none;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); */
   position: relative;
   z-index: 3;
 }
@@ -178,5 +185,10 @@ function handleDragEnd(event: DragEvent) {
   align-items: center;
   justify-content: center;
   margin: 24px;
+}
+
+.card-image {
+  height: 80px;
+  width: 80px;
 }
 </style>
