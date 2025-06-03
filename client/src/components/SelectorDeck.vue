@@ -63,12 +63,12 @@
             </v-btn>
 
             <v-window v-model="locationIndex" direction="vertical" class="card-window no-arrows" show-arrows="false">
-              <v-window-item
-                v-for="(loc, index) in unselectedLocations"
-                :key="loc.name"
-                :value="index"
-              >
                 <div class="card-wrapper">
+                    <v-window-item
+                        v-for="(loc, index) in unselectedLocations"
+                        :key="loc.name"
+                        :value="index"
+                    >
                     <div class="card">
                         <img :src="loc.image" alt="Location image" class="card-image" />
                         <h3>{{ loc.name }}</h3>
@@ -82,8 +82,8 @@
                             </div>
                         </div>
                     </div>
-                </div>
-              </v-window-item>
+                </v-window-item>
+              </div>
             </v-window>
 
             <v-btn
