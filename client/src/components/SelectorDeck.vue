@@ -22,16 +22,23 @@
                     :value="index"
                 >
                 
-                    <div class="card">
-                        <img :src="`/characters/${char.image}`" alt="Character image" class="card-image" />
-                        <h3>{{ char.name }}</h3>
-                        <div class="stats">
+                    <div 
+                        class="card"
+                        draggable="true"
+                        @dragstart="handleCardDragStart(char, $event)"
+                        @dragend="handleCardDragEnd"
+                    >
+                        <div class="card-frame">
+                            <img :src="`/characters/${char.image}`" alt="Character image" class="card-image" />
+                        </div>
+                        <h3 class="card-name">{{ char.name }}</h3>
+                        <div class="card-stats">
                             <div
                             v-for="(value, key) in char.stats"
                             :key="key"
                             class="stat"
                             >
-                            {{ key }}: {{ value }}
+                            <span class="stat-key">{{ key }}</span>: <span class="stat-value">{{ value }}</span>
                             </div>
                         </div>
                     </div>
@@ -195,6 +202,22 @@ onMounted(() => {
     { immediate: true }
   )
 })
+
+function handleCardDragStart(character: Character, event: DragEvent) {
+  if (event.dataTransfer) {
+    event.dataTransfer.setData('character', character.name)
+    if (event.target instanceof HTMLElement) {
+      event.target.classList.add('dragging')
+    }
+  }
+}
+
+function handleCardDragEnd(event: DragEvent) {
+  if (event.target instanceof HTMLElement) {
+    event.target.classList.remove('dragging')
+  }
+}
+
 </script>
 
 
@@ -223,31 +246,74 @@ onMounted(() => {
 }
 
 .card {
+  width: 260px;
+  padding: 16px;
+  border-radius: 16px;
+  background: linear-gradient(to bottom right, #f5f5dc, #e6d8ad);
+  border: 3px solid #444;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  height: 100%;
-  padding: 16px;
-  text-align: center;
-  border: 1px solid red;
+  font-family: 'Segoe UI', sans-serif;
+  transition: transform 0.2s ease;
 }
 
-.card-image {
-  width: 200px;
+.card:hover {
+  transform: scale(1.03);
+}
+
+.card-frame {
+  width: 100%;
   height: 200px;
-  object-fit: contain;
+  background-color: white;
+  border: 2px inset #999;
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin-bottom: 12px;
 }
 
-.stats {
+.card-image {
   width: 100%;
-  text-align: left;
-  margin-top: 8px;
+  height: 100%;
+  object-fit: contain;
+  -webkit-user-drag: none;
+}
+
+.card-name {
+  font-size: 1.4rem;
+  font-weight: bold;
+  margin: 4px 0 10px;
+  color: #222;
+  text-shadow: 0 1px 0 #fff;
+}
+
+.card-stats {
+  width: 100%;
+  background-color: #fffef5;
+  border-radius: 10px;
+  padding: 10px;
+  border: 1px solid #aaa;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .stat {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.95rem;
   margin-bottom: 4px;
+}
+
+.stat-key {
+  font-weight: 600;
+  color: #444;
+}
+
+.stat-value {
+  color: #222;
 }
 
 .carousel-container {
