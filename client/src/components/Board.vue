@@ -13,6 +13,7 @@
             <v-col cols="5">
                 <div class="locations">
                     <Locations
+                        :locations="locations"
                         :selectedLocations="selectedLocations"
                         @update:selectedLocations="onUpdateSelectedLocations"
                     />

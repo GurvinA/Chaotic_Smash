@@ -7,7 +7,7 @@
       <v-col>
         <Board 
           v-model:selectedCharacters="selectedCharacters"
-          :selectedLocations="selectedLocations" 
+          v-model:selectedLocations="selectedLocations" 
           :characters="characters"
           :locations="locations"
         />

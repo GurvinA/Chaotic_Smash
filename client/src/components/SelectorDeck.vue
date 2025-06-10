@@ -25,7 +25,7 @@
                     <div 
                         class="card"
                         draggable="true"
-                        @dragstart="handleCardDragStart(char, $event)"
+                        @dragstart="handleCardDragStart('character', char, $event)"
                         @dragend="handleCardDragEnd"
                     >
                         <div class="card-frame">
@@ -76,7 +76,12 @@
                         :key="loc.name"
                         :value="index"
                     >
-                    <div class="card">
+                    <div 
+                        class="card"
+                        draggable="true"
+                        @dragstart="handleCardDragStart('location', loc, $event)"
+                        @dragend="handleCardDragEnd"
+                    >
                         <img :src="`/locations/${loc.image}`" alt="Location image" class="card-image" />
                         <h3>{{ loc.name }}</h3>
                         <div class="stats">
@@ -203,9 +208,13 @@ onMounted(() => {
   )
 })
 
-function handleCardDragStart(character: Character, event: DragEvent) {
+function handleCardDragStart(
+  type: 'character' | 'location',
+  item: Character | Location,
+  event: DragEvent
+) {
   if (event.dataTransfer) {
-    event.dataTransfer.setData('character', character.name)
+    event.dataTransfer.setData(type, item.name)
     if (event.target instanceof HTMLElement) {
       event.target.classList.add('dragging')
     }

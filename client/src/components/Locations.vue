@@ -1,14 +1,18 @@
 <template>
   <v-col cols="12">
     <h3>Your Location Deck</h3>
-    <div class="location-pile">
+    <div 
+        class="location-pile"
+        @dragover="handleDragOver"
+        @drop="handleContainerDrop"
+    >
       <div
         v-for="(stage, i) in selectedLocations"
         :key="stage.name"
         class="location-card"
         :style="{ left: `${i * 30}px` }"
       >
-        {{ stage }}
+        {{ stage.name }}
       </div>
     </div>
   </v-col>
@@ -18,11 +22,39 @@
 
 
 import type { Location } from '@/Types';
+import { defineEmits } from 'vue'
+import { locations } from 'vuetify/lib/components/VNavigationDrawer/VNavigationDrawer.mjs';
 
-
-defineProps<{
+const props = defineProps<{
+  locations: Location[]
   selectedLocations: Location[]
 }>()
+
+const emit = defineEmits<{
+  (e: 'update:selectedLocations', value: Location[]): void
+}>()
+
+function handleContainerDrop(event: DragEvent) {
+  event.preventDefault()
+
+  const locationName = event.dataTransfer?.getData('location')
+
+  console.log(props.selectedLocations)
+
+  if (!locationName) return
+
+  const location = props.locations.find(l => l.name === locationName)
+  if (!location) return
+
+  const alreadySelected = props.selectedLocations.some(l => l.name === location.name)
+  if (alreadySelected) return
+
+  emit('update:selectedLocations', [...props.selectedLocations, location])
+}
+
+function handleDragOver(event: DragEvent) {
+  event.preventDefault()
+}
 </script>
 
 <style scoped>
