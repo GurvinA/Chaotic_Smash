@@ -3,7 +3,7 @@
         <v-row>
             <v-col cols="7">
                 <div class="triangle">
-                    <TriangleRight
+                    <TriangleLeft
                         :characters="characters"
                         :selectedCharacters="selectedCharacters"
                         @update:selectedCharacters="onUpdateSelectedCharacters"
