@@ -77,7 +77,7 @@
                         :value="index"
                     >
                     <div class="card">
-                        <img :src="loc.image" alt="Location image" class="card-image" />
+                        <img :src="`/locations/${loc.image}`" alt="Location image" class="card-image" />
                         <h3>{{ loc.name }}</h3>
                         <div class="stats">
                             <div

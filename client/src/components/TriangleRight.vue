@@ -163,22 +163,6 @@ function handleDragEnd(event: DragEvent) {
   background-color: rgba(200, 0, 0, 0.536);
 }
 
-.character-chip {
-  background-color: transparent;
-  color: white;
-  padding: 8px 12px;
-  border-radius: 16px;
-  cursor: move;
-  user-select: none;
-  /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); */
-  position: relative;
-  z-index: 3;
-}
-
-.character-chip.dragging {
-  opacity: 0.5;
-}
-
 .v-col {
   display: flex;
   flex-direction: column;
