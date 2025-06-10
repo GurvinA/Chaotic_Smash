@@ -1,29 +1,33 @@
 <template>
-  <v-col cols="12">
+  <v-col cols="11">
     <h3>Your Location Deck</h3>
     <div 
-        class="location-pile"
-        @dragover="handleDragOver"
-        @drop="handleContainerDrop"
+      class="location-pile"
+      @dragover="handleDragOver"
+      @drop="handleContainerDrop"
     >
       <div
         v-for="(stage, i) in selectedLocations"
         :key="stage.name"
         class="location-card"
-        :style="{ left: `${i * 30}px` }"
       >
-        {{ stage.name }}
+        <img 
+          :src="`/locations/${stage.image}`" 
+          alt="Location image" 
+          class="location-image" 
+        />
+        <div class="location-name">{{ stage.name }}</div>
       </div>
     </div>
   </v-col>
 </template>
+
 
 <script setup lang="ts">
 
 
 import type { Location } from '@/Types';
 import { defineEmits } from 'vue'
-import { locations } from 'vuetify/lib/components/VNavigationDrawer/VNavigationDrawer.mjs';
 
 const props = defineProps<{
   locations: Location[]
@@ -38,10 +42,9 @@ function handleContainerDrop(event: DragEvent) {
   event.preventDefault()
 
   const locationName = event.dataTransfer?.getData('location')
-
-  console.log(props.selectedLocations)
-
   if (!locationName) return
+
+  if (props.selectedLocations.length >= 6) return
 
   const location = props.locations.find(l => l.name === locationName)
   if (!location) return
@@ -59,24 +62,42 @@ function handleDragOver(event: DragEvent) {
 
 <style scoped>
 .location-pile {
-  position: relative;
-  height: 120px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px; /* spacing between cards */
+  height: 450px;
+  overflow-y: auto;
+  border: 2px solid yellow;
+  border-radius: 20px;
+  padding: 10px;
 }
 
 .location-card {
-  position: absolute;
-  top: 0;
-  width: 120px;
-  height: 100px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
   background-color: #424242;
   color: white;
   border: 2px solid white;
   border-radius: 8px;
   padding: 10px;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
-  text-align: center;
-  overflow: hidden;
+}
+
+.location-image {
+  height: 54px;
+  width: 96px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.location-name {
+  font-size: 16px;
+  font-weight: 500;
   white-space: nowrap;
+  overflow: hidden;
   text-overflow: ellipsis;
 }
+
 </style>
