@@ -15,25 +15,35 @@
             </v-btn>
 
             <v-window v-model="characterIndex" direction="vertical" class="card-window no-arrows" show-arrows="false">
-              <v-window-item
-                v-for="(char, index) in unselectedCharacters"
-                :key="char.name"
-                :value="index"
-              >
-                <div class="card">
-                  <img :src="`/characters/${char.image}`" alt="Character image" class="card-image" />
-                  <h3>{{ char.name }}</h3>
-                  <div class="stats">
-                    <div
-                      v-for="(value, key) in char.stats"
-                      :key="key"
-                      class="stat"
+              <div class="card-wrapper">
+                <v-window-item
+                    v-for="(char, index) in unselectedCharacters"
+                    :key="char.name"
+                    :value="index"
+                >
+                
+                    <div 
+                        class="card"
+                        draggable="true"
+                        @dragstart="handleCardDragStart('character', char, $event)"
+                        @dragend="handleCardDragEnd"
                     >
-                      {{ key }}: {{ value }}
+                        <div class="card-frame">
+                            <img :src="`/characters/${char.image}`" alt="Character image" class="card-image" />
+                        </div>
+                        <h3 class="card-name">{{ char.name }}</h3>
+                        <div class="card-stats">
+                            <div
+                            v-for="(value, key) in char.stats"
+                            :key="key"
+                            class="stat"
+                            >
+                            <span class="stat-key">{{ key }}</span>: <span class="stat-value">{{ value }}</span>
+                            </div>
+                        </div>
                     </div>
-                  </div>
-                </div>
-              </v-window-item>
+                </v-window-item>
+              </div>
             </v-window>
 
             <v-btn
@@ -60,25 +70,32 @@
             </v-btn>
 
             <v-window v-model="locationIndex" direction="vertical" class="card-window no-arrows" show-arrows="false">
-              <v-window-item
-                v-for="(loc, index) in unselectedLocations"
-                :key="loc.name"
-                :value="index"
-              >
-                <div class="card">
-                  <img :src="loc.image" alt="Location image" class="card-image" />
-                  <h3>{{ loc.name }}</h3>
-                  <div class="stats">
-                    <div
-                      v-for="(value, key) in loc.stats"
-                      :key="key"
-                      class="stat"
+                <div class="card-wrapper">
+                    <v-window-item
+                        v-for="(loc, index) in unselectedLocations"
+                        :key="loc.name"
+                        :value="index"
                     >
-                      {{ key }}: {{ value }}
+                    <div 
+                        class="card"
+                        draggable="true"
+                        @dragstart="handleCardDragStart('location', loc, $event)"
+                        @dragend="handleCardDragEnd"
+                    >
+                        <img :src="`/locations/${loc.image}`" alt="Location image" class="card-image" />
+                        <h3>{{ loc.name }}</h3>
+                        <div class="stats">
+                            <div
+                            v-for="(value, key) in loc.stats"
+                            :key="key"
+                            class="stat"
+                            >
+                            {{ key }}: {{ value }}
+                            </div>
+                        </div>
                     </div>
-                  </div>
-                </div>
-              </v-window-item>
+                </v-window-item>
+              </div>
             </v-window>
 
             <v-btn
@@ -190,6 +207,26 @@ onMounted(() => {
     { immediate: true }
   )
 })
+
+function handleCardDragStart(
+  type: 'character' | 'location',
+  item: Character | Location,
+  event: DragEvent
+) {
+  if (event.dataTransfer) {
+    event.dataTransfer.setData(type, item.name)
+    if (event.target instanceof HTMLElement) {
+      event.target.classList.add('dragging')
+    }
+  }
+}
+
+function handleCardDragEnd(event: DragEvent) {
+  if (event.target instanceof HTMLElement) {
+    event.target.classList.remove('dragging')
+  }
+}
+
 </script>
 
 
@@ -218,30 +255,76 @@ onMounted(() => {
 }
 
 .card {
+  width: 260px;
+  padding: 16px;
+  border-radius: 16px;
+  background: linear-gradient(to bottom right, #f5f5dc, #e6d8ad);
+  border: 3px solid #444;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  height: 100%;
-  padding: 16px;
-  text-align: center;
+  font-family: 'Segoe UI', sans-serif;
+  transition: transform 0.2s ease;
 }
 
-.card-image {
-  width: 100px;
-  height: 100px;
-  object-fit: contain;
+.card:hover {
+  transform: scale(1.03);
+}
+
+.card-frame {
+  width: 100%;
+  height: 200px;
+  background-color: white;
+  border: 2px inset #999;
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin-bottom: 12px;
 }
 
-.stats {
+.card-image {
   width: 100%;
-  text-align: left;
-  margin-top: 8px;
+  height: 100%;
+  object-fit: contain;
+  user-drag: none;
+  -webkit-user-drag: none;
+  pointer-events: none;
+}
+
+.card-name {
+  font-size: 1.4rem;
+  font-weight: bold;
+  margin: 4px 0 10px;
+  color: #222;
+  text-shadow: 0 1px 0 #fff;
+}
+
+.card-stats {
+  width: 100%;
+  background-color: #fffef5;
+  border-radius: 10px;
+  padding: 10px;
+  border: 1px solid #aaa;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .stat {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.95rem;
   margin-bottom: 4px;
+}
+
+.stat-key {
+  font-weight: 600;
+  color: #444;
+}
+
+.stat-value {
+  color: #222;
 }
 
 .carousel-container {
@@ -260,6 +343,13 @@ onMounted(() => {
   flex-grow: 1;
 }
 
+.card-wrapper {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .nav-btn {
   background-color: white;
   margin: 4px 0;
@@ -269,5 +359,6 @@ onMounted(() => {
 .no-arrows ::v-deep(.v-window__controls) {
   display: none !important;
 }
+
 
 </style>
