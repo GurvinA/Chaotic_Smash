@@ -1,9 +1,34 @@
 <template>
   <div class="setup-wrapper">
-
-  
-
-    <v-row align="center">
+    <v-row align="center" justify="end" v-if="isPlayer1">
+      <v-spacer/>
+      <v-col>
+        <v-btn color="chaotic"
+          @click="lockIn"
+          style="width:150px; height:150px; border-radius: 75px;">
+          Lock In
+        </v-btn>
+      </v-col>
+      <v-spacer/>
+      <v-col>
+        <SelectorDeck
+          :characters="characters"
+          :locations="locations"
+          :selectedCharacters="selectedCharacters"
+          :selectedLocations="selectedLocations"
+        />
+      </v-col>
+      <v-spacer/>
+      <v-col>
+        <Board 
+          v-model:selectedCharacters="selectedCharacters"
+          v-model:selectedLocations="selectedLocations" 
+          :characters="characters"
+          :locations="locations"
+        />
+      </v-col>
+    </v-row>
+    <v-row align="center" v-else>
       <v-col cols="6">
         <Board 
           v-model:selectedCharacters="selectedCharacters"
@@ -28,8 +53,7 @@
         </v-btn>
       </v-col>
     </v-row>
-
-
+   
 
     <!-- <v-row>
       <v-btn color="success" class="mt-4" @click="lockIn">Lock In</v-btn>
@@ -44,7 +68,7 @@
 
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useGameStore } from '../stores/gameStore'
 import Board from '@/components/Board.vue'
@@ -272,12 +296,16 @@ defineProps<{
 const selectedCharacters = ref<Character[]>([])
 const selectedLocations = ref<Location[]>([])
 
-const isPlayer1 = computed( () => route.fullPath.includes('player1'))
+let isPlayer1 = route.fullPath.includes('player1')
+
+watch(() => route.fullPath, (newPath) => {
+  isPlayer1 = newPath.includes('player1')
+})
 
 function lockIn() {
   if (isPlayer1) 
   {
-    router.push('/setup/player2')
+    router.push('/setup/player2') 
   }
   else 
   {
@@ -295,12 +323,10 @@ function lockIn() {
 
 
 <style scoped>
-.v-btn.dragging {
-  opacity: 0.5;
-}
 
 .v-row {
   margin: 10px;
+  border: 2px solid red;
 }
 
 .setup-wrapper {

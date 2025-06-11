@@ -64,8 +64,9 @@ function handleDragOver(event: DragEvent) {
 .location-pile {
   display: flex;
   flex-direction: column;
-  gap: 12px; /* spacing between cards */
+  gap: 12px;
   height: 450px;
+  width: 230px;
   overflow-y: auto;
   border: 2px solid yellow;
   border-radius: 20px;
