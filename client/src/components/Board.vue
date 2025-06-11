@@ -1,9 +1,29 @@
 <template>
     <div class="board-wrapper">
-        <v-row>
+        <v-row justify="end" v-if="isPlayer1">
+            <v-col class="ml-5">
+                <div class="locations">
+                    <Locations
+                        :locations="locations"
+                        :selectedLocations="selectedLocations"
+                        @update:selectedLocations="onUpdateSelectedLocations"
+                    />
+                </div>
+            </v-col>
             <v-col cols="7">
                 <div class="triangle">
                     <TriangleRight
+                        :characters="characters"
+                        :selectedCharacters="selectedCharacters"
+                        @update:selectedCharacters="onUpdateSelectedCharacters"
+                    />
+                </div>
+            </v-col>
+        </v-row>
+        <v-row v-else>
+            <v-col cols="7">
+                <div class="triangle">
+                    <TriangleLeft
                         :characters="characters"
                         :selectedCharacters="selectedCharacters"
                         @update:selectedCharacters="onUpdateSelectedCharacters"
@@ -30,6 +50,8 @@ import TriangleLeft from './TriangleLeft.vue';
 import TriangleRight from './TriangleRight.vue';
 import Locations from './Locations.vue';
 import type { Character, Location } from '@/Types';
+import { watch } from 'vue'
+import { useRoute } from 'vue-router'
 
 const props = defineProps<{
   selectedCharacters: Character[],
@@ -50,6 +72,15 @@ function onUpdateSelectedCharacters(value: Character[]) {
 function onUpdateSelectedLocations(value: Location[]) {
   emit('update:selectedLocations', value)
 }
+
+const route = useRoute()
+
+let isPlayer1 = route.fullPath.includes('player1')
+
+watch(() => route.fullPath, (newPath) => {
+  isPlayer1 = newPath.includes('player1')
+})
+
 
 </script>
 
