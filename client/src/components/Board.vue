@@ -1,6 +1,6 @@
 <template>
     <div class="board-wrapper">
-        <v-row justify="end" v-if="isPlayer1">
+        <v-row justify="end" v-if="props.role === 'player1'">
             <v-col class="ml-5">
                 <div class="locations">
                     <Locations
@@ -50,10 +50,9 @@ import TriangleLeft from './TriangleLeft.vue';
 import TriangleRight from './TriangleRight.vue';
 import Locations from './Locations.vue';
 import type { Character, Location } from '@/Types';
-import { watch } from 'vue'
-import { useRoute } from 'vue-router'
 
 const props = defineProps<{
+  role: 'player1' | 'player2'
   selectedCharacters: Character[],
   selectedLocations: Location[]
   characters: Character[]
@@ -72,15 +71,6 @@ function onUpdateSelectedCharacters(value: Character[]) {
 function onUpdateSelectedLocations(value: Location[]) {
   emit('update:selectedLocations', value)
 }
-
-const route = useRoute()
-
-let isPlayer1 = route.fullPath.includes('player1')
-
-watch(() => route.fullPath, (newPath) => {
-  isPlayer1 = newPath.includes('player1')
-})
-
 
 </script>
 

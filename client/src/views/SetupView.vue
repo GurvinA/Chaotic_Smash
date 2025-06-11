@@ -21,6 +21,7 @@
       <v-spacer/>
       <v-col>
         <Board 
+          :role="'player1'"
           v-model:selectedCharacters="selectedCharacters"
           v-model:selectedLocations="selectedLocations" 
           :characters="characters"
@@ -31,6 +32,7 @@
     <v-row align="center" v-else>
       <v-col cols="6">
         <Board 
+          :role="'player2'"
           v-model:selectedCharacters="selectedCharacters"
           v-model:selectedLocations="selectedLocations" 
           :characters="characters"
