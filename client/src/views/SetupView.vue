@@ -3,8 +3,8 @@
 
   
 
-    <v-row>
-      <v-col>
+    <v-row align="center">
+      <v-col cols="6">
         <Board 
           v-model:selectedCharacters="selectedCharacters"
           v-model:selectedLocations="selectedLocations" 
@@ -12,7 +12,7 @@
           :locations="locations"
         />
       </v-col>
-      <v-col>
+      <v-col cols="4">
         <SelectorDeck
           :characters="characters"
           :locations="locations"
@@ -20,7 +20,13 @@
           :selectedLocations="selectedLocations"
         />
       </v-col>
-      
+      <v-col cols="2">
+        <v-btn color="chaotic"
+          @click="lockIn"
+          style="width:150px; height:150px; border-radius: 75px;">
+          Lock In
+        </v-btn>
+      </v-col>
     </v-row>
 
 
@@ -38,7 +44,7 @@
 
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useGameStore } from '../stores/gameStore'
 import Board from '@/components/Board.vue'
@@ -264,32 +270,18 @@ defineProps<{
 }>()
 
 const selectedCharacters = ref<Character[]>([])
-
-function handleDragStart(event: DragEvent, character: Character) {
-  if (event.dataTransfer) {
-    event.dataTransfer.setData('characterName', character.name)
-    if (event.target instanceof HTMLElement) {
-      event.target.classList.add('dragging')
-    }
-  }
-}
-
-function handleDragEnd(event: DragEvent) {
-  if (event.target instanceof HTMLElement) {
-    event.target.classList.remove('dragging')
-  }
-}
-
 const selectedLocations = ref<Location[]>([])
 
-function toggleLocation(location: Location) {
-  const index = selectedLocations.value.findIndex(l => l.name === location.name)
-  if (index === -1) {
-    if (selectedLocations.value.length < 5) {
-      selectedLocations.value.push(location)
-    }
-  } else {
-    selectedLocations.value.splice(index, 1)
+const isPlayer1 = computed( () => route.fullPath.includes('player1'))
+
+function lockIn() {
+  if (isPlayer1) 
+  {
+    router.push('/setup/player2')
+  }
+  else 
+  {
+    router.push('/game')
   }
 }
 
@@ -309,12 +301,10 @@ function toggleLocation(location: Location) {
 
 .v-row {
   margin: 10px;
-  justify-content: start;
 }
 
 .setup-wrapper {
-  justify-content: start;
+  width: 100%;
 }
-
 
 </style>

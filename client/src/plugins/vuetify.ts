@@ -12,4 +12,15 @@ export default createVuetify({
     aliases,
     sets: { mdi },
   },
+  theme: {
+    defaultTheme: 'chaoticSmash',
+    themes: {
+      chaoticSmash: {
+        dark: false,
+        colors: {
+          chaotic: '#bb0000',
+        }
+      }
+    }
+  }
 })
