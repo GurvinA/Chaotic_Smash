@@ -47,13 +47,6 @@
         </v-btn>
       </v-col>
     </v-row>
-   
-
-    <!-- <v-row>
-      <v-btn color="success" class="mt-4" @click="lockIn">Lock In</v-btn>
-    </v-row> -->
-
-
   </div>
 </template>
 
@@ -93,10 +86,12 @@ watch(() => route.fullPath, (newPath) => {
 function lockIn() {
   if (isPlayer1) 
   {
+    store.setPlayerData(1, selectedCharacters.value, selectedLocations.value)
     router.push('/setup/player2') 
   }
   else 
   {
+    store.setPlayerData(2, selectedCharacters.value, selectedLocations.value)
     router.push('/game')
   }
 }
