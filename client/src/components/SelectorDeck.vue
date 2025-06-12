@@ -133,7 +133,7 @@ import { useDeckData } from '@/composables/decks'
 const { characters, locations } = useDeckData()
 
 const props = defineProps<{
-  selectedCharacters: Character[]
+  selectedCharacters: (Character | null)[]
   selectedLocations: Location[]
 }>()
 
@@ -144,9 +144,10 @@ const locationIndex = ref(0)
 
 const unselectedCharacters = computed(() =>
   characters.filter(c =>
-    !props.selectedCharacters.some(sc => sc.name === c.name)
+    !props.selectedCharacters.some(sc => sc && sc.name === c.name)
   )
 )
+
 
 const unselectedLocations = computed(() =>
   locations.filter(l =>

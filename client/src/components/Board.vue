@@ -52,16 +52,16 @@ const { characters, locations } = useDeckData()
 
 const props = defineProps<{
   role: 'player1' | 'player2'
-  selectedCharacters: Character[],
+  selectedCharacters: (Character | null)[],
   selectedLocations: Location[]
 }>()
 
 const emit = defineEmits<{
-  (e: 'update:selectedCharacters', value: Character[]): void,
+  (e: 'update:selectedCharacters', value: (Character | null)[]): void,
   (e: 'update:selectedLocations', value: Location[]): void
 }>()
 
-function onUpdateSelectedCharacters(value: Character[]) {
+function onUpdateSelectedCharacters(value: (Character | null)[]) {
   emit('update:selectedCharacters', value)
 }
 

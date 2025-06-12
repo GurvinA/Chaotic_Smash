@@ -6,36 +6,40 @@ import { useDeckData } from '@/composables/decks'
 const { characters } = useDeckData()
 
 const props = defineProps<{
-  selectedCharacters: Character[]
+  selectedCharacters: (Character | null)[]
 }>()
 
 const emit = defineEmits<{
-  (e: 'update:selectedCharacters', value: Character[]): void
+  (e: 'update:selectedCharacters', value: (Character | null)[]): void
 }>()
 
-const slotAssignments = ref<(Character | null)[]>([null, null, null, null, null, null])
+const slotAssignments = ref<(Character | null)[]>([...props.selectedCharacters])
 
 function handleSlotDrop(event: DragEvent, slotIndex: number) {
   event.preventDefault()
   event.stopPropagation()
 
   const characterName = event.dataTransfer?.getData('character')
-  if (characterName) {
-    let character = props.selectedCharacters.find(c => c.name === characterName)
-    if (!character) {
-      character = characters.find(c => c.name === characterName)
-      if (!character) return
-      emit('update:selectedCharacters', [...props.selectedCharacters, character])
-    }
+  if (!characterName) return
 
-    const prevIndex = slotAssignments.value.findIndex(c => c?.name === characterName)
-    if (prevIndex !== -1) {
-      slotAssignments.value[prevIndex] = null
-    }
-
-    slotAssignments.value[slotIndex] = character
+  let character = props.selectedCharacters.find(c => c?.name === characterName)
+  if (!character) {
+    character = characters.find(c => c.name === characterName)
+    if (!character) return
   }
+
+  const updatedCharacters = [...props.selectedCharacters]
+  const prevIndex = updatedCharacters.findIndex(c => c?.name === characterName)
+  if (prevIndex !== -1) {
+    updatedCharacters[prevIndex] = null
+  }
+
+  updatedCharacters[slotIndex] = character
+
+  emit('update:selectedCharacters', updatedCharacters)
+  slotAssignments.value = updatedCharacters
 }
+
 
 function handleContainerDrop(event: DragEvent) {
   event.preventDefault()

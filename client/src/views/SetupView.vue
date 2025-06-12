@@ -74,7 +74,8 @@ defineProps<{
 
 const { characters, locations } = useDeckData()
 
-const selectedCharacters = ref<Character[]>([])
+const selectedCharacters = ref<(Character | null)[]>([null, null, null, null, null, null])
+
 const selectedLocations = ref<Location[]>([])
 
 let isPlayer1 = route.fullPath.includes('player1')
@@ -86,7 +87,7 @@ watch(() => route.fullPath, (newPath) => {
 function lockIn() {
   if (isPlayer1) 
   {
-    if (selectedCharacters.value.length === 6 && selectedLocations.value.length === 6)
+    if (selectedCharacters.value.every(c => c !== null) && selectedLocations.value.length === 6)
     {
       store.setPlayerData(1, selectedCharacters.value, selectedLocations.value)
       router.push('/setup/player2') 
@@ -97,7 +98,7 @@ function lockIn() {
   }
   else 
   {
-    if (selectedCharacters.value.length === 6 && selectedLocations.value.length === 6)
+    if (selectedCharacters.value.every(c => c !== null) && selectedLocations.value.length === 6)
     {
       store.setPlayerData(2, selectedCharacters.value, selectedLocations.value)
       router.push('/game')
