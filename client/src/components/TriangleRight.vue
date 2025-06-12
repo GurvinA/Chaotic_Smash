@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import type { Character } from '@/Types'
+import { useDeckData } from '@/composables/decks'
+
+const { characters } = useDeckData()
 
 const props = defineProps<{
-  characters: Character[]
   selectedCharacters: Character[]
 }>()
 
@@ -21,7 +23,7 @@ function handleSlotDrop(event: DragEvent, slotIndex: number) {
   if (characterName) {
     let character = props.selectedCharacters.find(c => c.name === characterName)
     if (!character) {
-      character = props.characters.find(c => c.name === characterName)
+      character = characters.find(c => c.name === characterName)
       if (!character) return
       emit('update:selectedCharacters', [...props.selectedCharacters, character])
     }

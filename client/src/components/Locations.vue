@@ -28,9 +28,11 @@
 
 import type { Location } from '@/Types';
 import { defineEmits } from 'vue'
+import { useDeckData } from '@/composables/decks'
+
+const { locations } = useDeckData()
 
 const props = defineProps<{
-  locations: Location[]
   selectedLocations: Location[]
 }>()
 
@@ -46,7 +48,7 @@ function handleContainerDrop(event: DragEvent) {
 
   if (props.selectedLocations.length >= 6) return
 
-  const location = props.locations.find(l => l.name === locationName)
+  const location = locations.find(l => l.name === locationName)
   if (!location) return
 
   const alreadySelected = props.selectedLocations.some(l => l.name === location.name)

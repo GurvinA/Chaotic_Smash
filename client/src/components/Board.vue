@@ -4,7 +4,6 @@
             <v-col class="ml-5">
                 <div class="locations">
                     <Locations
-                        :locations="locations"
                         :selectedLocations="selectedLocations"
                         @update:selectedLocations="onUpdateSelectedLocations"
                     />
@@ -13,7 +12,6 @@
             <v-col cols="7">
                 <div class="triangle">
                     <TriangleRight
-                        :characters="characters"
                         :selectedCharacters="selectedCharacters"
                         @update:selectedCharacters="onUpdateSelectedCharacters"
                     />
@@ -24,7 +22,6 @@
             <v-col cols="7">
                 <div class="triangle">
                     <TriangleLeft
-                        :characters="characters"
                         :selectedCharacters="selectedCharacters"
                         @update:selectedCharacters="onUpdateSelectedCharacters"
                     />
@@ -33,7 +30,6 @@
             <v-col cols="5">
                 <div class="locations">
                     <Locations
-                        :locations="locations"
                         :selectedLocations="selectedLocations"
                         @update:selectedLocations="onUpdateSelectedLocations"
                     />
@@ -50,13 +46,14 @@ import TriangleLeft from './TriangleLeft.vue';
 import TriangleRight from './TriangleRight.vue';
 import Locations from './Locations.vue';
 import type { Character, Location } from '@/Types';
+import { useDeckData } from '@/composables/decks'
+
+const { characters, locations } = useDeckData()
 
 const props = defineProps<{
   role: 'player1' | 'player2'
   selectedCharacters: Character[],
   selectedLocations: Location[]
-  characters: Character[]
-  locations: Location[]
 }>()
 
 const emit = defineEmits<{
