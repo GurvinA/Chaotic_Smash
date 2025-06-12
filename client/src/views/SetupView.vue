@@ -3,7 +3,7 @@
     <v-row align="center" justify="end" v-if="isPlayer1">
       <v-spacer/>
       <v-col>
-        <v-btn color="chaotic"
+        <v-btn color="buttons"
           @click="lockIn"
           style="width:150px; height:150px; border-radius: 75px;">
           Lock In
@@ -40,7 +40,7 @@
         />
       </v-col>
       <v-col cols="2">
-        <v-btn color="chaotic"
+        <v-btn color="buttons"
           @click="lockIn"
           style="width:150px; height:150px; border-radius: 75px;">
           Lock In
@@ -86,13 +86,24 @@ watch(() => route.fullPath, (newPath) => {
 function lockIn() {
   if (isPlayer1) 
   {
-    store.setPlayerData(1, selectedCharacters.value, selectedLocations.value)
-    router.push('/setup/player2') 
+    if (selectedCharacters.value.length === 6 && selectedLocations.value.length === 6)
+    {
+      store.setPlayerData(1, selectedCharacters.value, selectedLocations.value)
+      router.push('/setup/player2') 
+      selectedCharacters.value = []
+      selectedLocations.value = []
+    }
+    
   }
   else 
   {
-    store.setPlayerData(2, selectedCharacters.value, selectedLocations.value)
-    router.push('/game')
+    if (selectedCharacters.value.length === 6 && selectedLocations.value.length === 6)
+    {
+      store.setPlayerData(2, selectedCharacters.value, selectedLocations.value)
+      router.push('/game')
+      selectedCharacters.value = []
+      selectedLocations.value = []
+    }
   }
 }
 

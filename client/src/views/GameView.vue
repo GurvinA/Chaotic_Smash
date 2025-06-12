@@ -1,12 +1,7 @@
 <template>
-    <v-container fluid class="fill-height">
-      <v-row>
-        <v-col cols="12" class="text-center">
-          <h2>Game Board</h2>
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col cols="6" class="text-center">
+    <v-container fluid>
+      <v-row class="ml-11">
+        <v-col class="text-center">
           <p>Player 1 Board</p>
           <Board 
             :role="'player1'"
@@ -14,7 +9,7 @@
             :selectedLocations="gameStore.player1.locations" 
           />
         </v-col>
-        <v-col cols="6" class="text-center">
+        <v-col class="text-center">
           <p>Player 2 Board</p>
           <Board 
             :role="'player2'"

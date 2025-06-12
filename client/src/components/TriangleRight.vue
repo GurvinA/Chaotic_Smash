@@ -162,7 +162,7 @@ function handleDragEnd(event: DragEvent) {
 
 .slot-box.has-character {
   border-style: solid;
-  background-color: rgba(200, 0, 0, 0.536);
+  background-color: #fd1613;
 }
 
 .v-col {
