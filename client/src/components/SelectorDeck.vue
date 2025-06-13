@@ -128,11 +128,12 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, watch, nextTick } from 'vue'
 import type { Character, Location } from '@/Types'
+import { useDeckData } from '@/composables/decks'
+
+const { characters, locations } = useDeckData()
 
 const props = defineProps<{
-  characters: Character[]
-  locations: Location[]
-  selectedCharacters: Character[]
+  selectedCharacters: (Character | null)[]
   selectedLocations: Location[]
 }>()
 
@@ -142,13 +143,14 @@ const characterIndex = ref(0)
 const locationIndex = ref(0)
 
 const unselectedCharacters = computed(() =>
-  props.characters.filter(c =>
-    !props.selectedCharacters.some(sc => sc.name === c.name)
+  characters.filter(c =>
+    !props.selectedCharacters.some(sc => sc && sc.name === c.name)
   )
 )
 
+
 const unselectedLocations = computed(() =>
-  props.locations.filter(l =>
+  locations.filter(l =>
     !props.selectedLocations.some(sl => sl.name === l.name)
   )
 )

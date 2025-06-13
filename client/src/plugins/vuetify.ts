@@ -19,6 +19,9 @@ export default createVuetify({
         dark: false,
         colors: {
           chaotic: '#bb0000',
+          buttons: '#612196',
+          player1: '#fd1613',
+          player2: '#1057ff',
         }
       }
     }
