@@ -5,16 +5,16 @@
           <p>Player 1 Board</p>
           <Board 
             :role="'player1'"
-            :selectedCharacters="gameStore.player1.characters"
-            :selectedLocations="gameStore.player1.locations" 
+            v-model:selectedCharacters="gameStore.player1.characters"
+            v-model:selectedLocations="gameStore.player1.locations" 
           />
         </v-col>
         <v-col class="text-center">
           <p>Player 2 Board</p>
           <Board 
             :role="'player2'"
-            :selectedCharacters="gameStore.player2.characters"
-            :selectedLocations="gameStore.player2.locations" 
+            v-model:selectedCharacters="gameStore.player2.characters"
+            v-model:selectedLocations="gameStore.player2.locations" 
           />
         </v-col>
       </v-row>
