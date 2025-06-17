@@ -1,5 +1,5 @@
 <template>
-  <div class="triangle-container" @dragover="handleDragOver" @drop="handleContainerDrop">
+  <div class="triangle-container" @dragover="handleDragOver">
     <v-row justify="center">
       <v-col cols="2">
         <div
@@ -122,19 +122,6 @@ function handleSlotDrop(event: DragEvent, slotIndex: number) {
 
   emit('update:selectedCharacters', updatedCharacters)
   slotAssignments.value = updatedCharacters
-}
-
-
-function handleContainerDrop(event: DragEvent) {
-  event.preventDefault()
-  const characterName = event.dataTransfer?.getData('character')
-  if (characterName) {
-    const index = slotAssignments.value.findIndex(c => c?.name === characterName)
-    if (index !== -1) {
-      slotAssignments.value[index] = null
-      emit('update:selectedCharacters', slotAssignments.value.filter(c => c !== null) as Character[])
-    }
-  }
 }
 
 function handleDragOver(event: DragEvent) {
