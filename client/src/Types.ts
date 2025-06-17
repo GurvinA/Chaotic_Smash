@@ -1,6 +1,7 @@
 export interface Character {
   name: string
   image: string
+  player: number
   stats: Record<string, any>
 }
 

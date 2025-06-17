@@ -217,6 +217,10 @@ function handleCardDragStart(
 ) {
   if (event.dataTransfer) {
     event.dataTransfer.setData(type, item.name)
+    if (type === 'character') {
+      const character = item as Character
+      event.dataTransfer.setData('player', String(character.player))
+    }
     if (event.target instanceof HTMLElement) {
       event.target.classList.add('dragging')
     }
