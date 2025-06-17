@@ -1,8 +1,7 @@
 <template>
   <div class="selector-wrapper">
-    <v-container class="content" fluid>
+    <v-container class="content" fluid @drop="handleContainerDrop" @dragover.prevent>
       <v-window v-model="tab">
-        <!-- Character Selector -->
         <v-window-item value="characters">
           <div class="carousel-container character-carousel">
             <v-btn
@@ -57,7 +56,6 @@
           </div>
         </v-window-item>
 
-        <!-- Location Selector -->
         <v-window-item value="locations">
           <div class="carousel-container location-carousel">
             <v-btn
@@ -203,7 +201,7 @@ onMounted(() => {
   watch(
     tab,
     async (newTab) => {
-      await nextTick() // wait for DOM render
+      await nextTick()
       addWheelListenerForTab(newTab)
     },
     { immediate: true }
@@ -230,6 +228,15 @@ function handleCardDragStart(
 function handleCardDragEnd(event: DragEvent) {
   if (event.target instanceof HTMLElement) {
     event.target.classList.remove('dragging')
+  }
+}
+
+function handleContainerDrop(event: DragEvent) {
+  event.preventDefault()
+  const characterName = event.dataTransfer?.getData('character')
+  if (characterName) {
+    const index = props.selectedCharacters.findIndex(c => c?.name === characterName)
+    props.selectedCharacters[index] = null
   }
 }
 

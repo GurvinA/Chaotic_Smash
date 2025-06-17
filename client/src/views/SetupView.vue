@@ -12,8 +12,8 @@
       <v-spacer/>
       <v-col>
         <SelectorDeck
-          :selectedCharacters="selectedCharacters"
-          :selectedLocations="selectedLocations"
+          v-model:selectedCharacters="selectedCharacters"
+          v-model:selectedLocations="selectedLocations"
         />
       </v-col>
       <v-spacer/>
@@ -35,8 +35,8 @@
       </v-col>
       <v-col cols="4">
         <SelectorDeck
-          :selectedCharacters="selectedCharacters"
-          :selectedLocations="selectedLocations"
+          v-model:selectedCharacters="selectedCharacters"
+          v-model:selectedLocations="selectedLocations"
         />
       </v-col>
       <v-col cols="2">
