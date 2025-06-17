@@ -1,79 +1,3 @@
-<script setup lang="ts">
-import { ref } from 'vue'
-import type { Character } from '@/Types'
-import { useDeckData } from '@/composables/decks'
-
-const { characters } = useDeckData()
-
-const props = defineProps<{
-  selectedCharacters: (Character | null)[]
-}>()
-
-const emit = defineEmits<{
-  (e: 'update:selectedCharacters', value: (Character | null)[]): void
-}>()
-
-const slotAssignments = ref<(Character | null)[]>([...props.selectedCharacters])
-
-function handleSlotDrop(event: DragEvent, slotIndex: number) {
-  event.preventDefault()
-  event.stopPropagation()
-
-  const characterName = event.dataTransfer?.getData('character')
-  if (!characterName) return
-
-  let character = props.selectedCharacters.find(c => c?.name === characterName)
-  if (!character) {
-    character = characters.find(c => c.name === characterName)
-    if (!character) return
-  }
-
-  const updatedCharacters = [...props.selectedCharacters]
-  const prevIndex = updatedCharacters.findIndex(c => c?.name === characterName)
-  if (prevIndex !== -1) {
-    updatedCharacters[prevIndex] = null
-  }
-
-  updatedCharacters[slotIndex] = character
-
-  emit('update:selectedCharacters', updatedCharacters)
-  slotAssignments.value = updatedCharacters
-}
-
-
-function handleContainerDrop(event: DragEvent) {
-  event.preventDefault()
-  const characterName = event.dataTransfer?.getData('character')
-  if (characterName) {
-    const index = slotAssignments.value.findIndex(c => c?.name === characterName)
-    if (index !== -1) {
-      slotAssignments.value[index] = null
-      emit('update:selectedCharacters', slotAssignments.value.filter(c => c !== null) as Character[])
-    }
-  }
-}
-
-function handleDragOver(event: DragEvent) {
-  event.preventDefault()
-}
-
-function handleDragStart(event: DragEvent, slotIndex: number) {
-  const character = slotAssignments.value[slotIndex]
-  if (character) {
-    event.dataTransfer?.setData('character', character.name)
-    if (event.target instanceof HTMLElement) {
-      event.target.classList.add('dragging')
-    }
-  }
-}
-
-function handleDragEnd(event: DragEvent) {
-  if (event.target instanceof HTMLElement) {
-    event.target.classList.remove('dragging')
-  }
-}
-</script>
-
 <template>
   <div class="triangle-container" @dragover="handleDragOver" @drop="handleContainerDrop">
     <v-row justify="center">
@@ -143,6 +67,84 @@ function handleDragEnd(event: DragEvent) {
     </v-row>
   </div>
 </template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+import type { Character } from '@/Types'
+import { useDeckData } from '@/composables/decks'
+
+const { characters } = useDeckData()
+
+const props = defineProps<{
+  selectedCharacters: (Character | null)[]
+}>()
+
+const emit = defineEmits<{
+  (e: 'update:selectedCharacters', value: (Character | null)[]): void
+}>()
+
+const slotAssignments = ref<(Character | null)[]>([...props.selectedCharacters])
+
+function handleSlotDrop(event: DragEvent, slotIndex: number) {
+  event.preventDefault()
+  event.stopPropagation()
+
+  const characterName = event.dataTransfer?.getData('character')
+  const owner = Number(event.dataTransfer?.getData('player'))
+  if (!characterName) return
+
+  let character = props.selectedCharacters.find(c => c?.name === characterName)
+  if (!character) {
+    character = characters.find(c => c.name === characterName)
+    if (!character) return
+  }
+
+  const updatedCharacters = [...props.selectedCharacters]
+  const prevIndex = updatedCharacters.findIndex(c => c?.name === characterName)
+  if (prevIndex !== -1) {
+    updatedCharacters[prevIndex] = null
+  }
+
+  updatedCharacters[slotIndex] = character
+
+  emit('update:selectedCharacters', updatedCharacters)
+  slotAssignments.value = updatedCharacters
+}
+
+
+function handleContainerDrop(event: DragEvent) {
+  event.preventDefault()
+  const characterName = event.dataTransfer?.getData('character')
+  if (characterName) {
+    const index = slotAssignments.value.findIndex(c => c?.name === characterName)
+    if (index !== -1) {
+      slotAssignments.value[index] = null
+      emit('update:selectedCharacters', slotAssignments.value.filter(c => c !== null) as Character[])
+    }
+  }
+}
+
+function handleDragOver(event: DragEvent) {
+  event.preventDefault()
+}
+
+function handleDragStart(event: DragEvent, slotIndex: number) {
+  const character = slotAssignments.value[slotIndex]
+  if (character) {
+    event.dataTransfer?.setData('character', character.name)
+    event.dataTransfer?.setData('player', String(character.player))
+    if (event.target instanceof HTMLElement) {
+      event.target.classList.add('dragging')
+    }
+  }
+}
+
+function handleDragEnd(event: DragEvent) {
+  if (event.target instanceof HTMLElement) {
+    event.target.classList.remove('dragging')
+  }
+}
+</script>
 
 <style scoped>
 .triangle-container {
