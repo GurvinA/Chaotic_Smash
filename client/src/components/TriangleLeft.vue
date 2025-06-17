@@ -6,7 +6,11 @@
           v-for="n in 3"
           :key="'col1-' + n"
           class="slot-box"
-          :class="{ 'has-character': slotAssignments[n-1] }"
+          :class="{ 
+            'has-character': slotAssignments[n-1],
+            'player-1': Number(slotAssignments[n-1]?.player) === 1,
+            'player-2': Number(slotAssignments[n-1]?.player) === 2
+          }"
           @dragover="handleDragOver"
           @drop="(e) => handleSlotDrop(e, n-1)"
         >
@@ -28,7 +32,11 @@
           v-for="n in 2"
           :key="'col2-' + n"
           class="slot-box"
-          :class="{ 'has-character': slotAssignments[n + 2] }"
+          :class="{ 
+            'has-character': slotAssignments[n+2],
+            'player-1': Number(slotAssignments[n+2]?.player) === 1,
+            'player-2': Number(slotAssignments[n+2]?.player) === 2
+          }"
           @dragover="handleDragOver"
           @drop="(e) => handleSlotDrop(e, n + 2)"
         >
@@ -48,7 +56,11 @@
       <v-col cols="2">
         <div
           class="slot-box"
-          :class="{ 'has-character': slotAssignments[5] }"
+          :class="{ 
+            'has-character': slotAssignments[5],
+            'player-1': Number(slotAssignments[5]?.player) === 1,
+            'player-2': Number(slotAssignments[5]?.player) === 2
+          }"
           @dragover="handleDragOver"
           @drop="(e) => handleSlotDrop(e, 5)"
         >
@@ -95,8 +107,9 @@ function handleSlotDrop(event: DragEvent, slotIndex: number) {
 
   let character = props.selectedCharacters.find(c => c?.name === characterName)
   if (!character) {
-    character = characters.find(c => c.name === characterName)
-    if (!character) return
+    const original = characters.find(c => c.name === characterName)
+    if (!original) return
+    character = { ...original, player: owner === 0 ? 2 : owner }
   }
 
   const updatedCharacters = [...props.selectedCharacters]
@@ -105,7 +118,7 @@ function handleSlotDrop(event: DragEvent, slotIndex: number) {
     updatedCharacters[prevIndex] = null
   }
 
-  updatedCharacters[slotIndex] = character
+  updatedCharacters[slotIndex] = { ...character, player: owner === 0 ? 2 : owner }
 
   emit('update:selectedCharacters', updatedCharacters)
   slotAssignments.value = updatedCharacters
@@ -166,7 +179,12 @@ function handleDragEnd(event: DragEvent) {
   z-index: 2;
 }
 
-.slot-box.has-character {
+.slot-box.has-character.player-1 {
+  border-style: solid;
+  background-color: #fd1613;
+}
+
+.slot-box.has-character.player-2 {
   border-style: solid;
   background-color: #1057ff;
 }
