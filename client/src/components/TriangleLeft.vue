@@ -81,7 +81,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed } from 'vue'
 import type { Character } from '@/Types'
 import { useDeckData } from '@/composables/decks'
 
@@ -95,7 +95,11 @@ const emit = defineEmits<{
   (e: 'update:selectedCharacters', value: (Character | null)[]): void
 }>()
 
-const slotAssignments = ref<(Character | null)[]>([...props.selectedCharacters])
+const slotAssignments = computed<(Character | null)[]>({
+  get: () => props.selectedCharacters,
+  set: (newVal) => emit('update:selectedCharacters', newVal)
+})
+
 
 function handleSlotDrop(event: DragEvent, slotIndex: number) {
   event.preventDefault()
@@ -112,7 +116,7 @@ function handleSlotDrop(event: DragEvent, slotIndex: number) {
     character = { ...original, player: owner === 0 ? 2 : owner }
   }
 
-  const updatedCharacters = [...props.selectedCharacters]
+  const updatedCharacters = [...slotAssignments.value]
   const prevIndex = updatedCharacters.findIndex(c => c?.name === characterName)
   if (prevIndex !== -1) {
     updatedCharacters[prevIndex] = null
