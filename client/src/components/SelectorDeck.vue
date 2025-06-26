@@ -302,7 +302,7 @@ function handleContainerDrop(event: DragEvent) {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  user-drag: none;
+  /* user-drag: none; */
   -webkit-user-drag: none;
   pointer-events: none;
 }

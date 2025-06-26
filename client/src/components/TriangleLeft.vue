@@ -12,13 +12,13 @@
             'player-2': Number(slotAssignments[n-1]?.player) === 2
           }"
           @dragover="handleDragOver"
-          @drop="(e) => handleSlotDrop(e, n-1)"
+          @drop="(e: DragEvent) => handleSlotDrop(e, n-1)"
         >
           <div
             v-if="slotAssignments[n-1]"
             class="character-chip"
             draggable="true"
-            @dragstart="(e) => handleDragStart(e, n-1)"
+            @dragstart="(e: DragEvent) => handleDragStart(e, n-1)"
             @dragend="handleDragEnd"
           >
              <img :src="`/characters/${slotAssignments[n-1]?.image}`" 
@@ -38,13 +38,13 @@
             'player-2': Number(slotAssignments[n+2]?.player) === 2
           }"
           @dragover="handleDragOver"
-          @drop="(e) => handleSlotDrop(e, n + 2)"
+          @drop="(e: DragEvent) => handleSlotDrop(e, n + 2)"
         >
           <div
             v-if="slotAssignments[n + 2]"
             class="character-chip"
             draggable="true"
-            @dragstart="(e) => handleDragStart(e, n + 2)"
+            @dragstart="(e: DragEvent) => handleDragStart(e, n + 2)"
             @dragend="handleDragEnd"
           >
             <img :src="`/characters/${slotAssignments[n+2]?.image}`" 
@@ -62,13 +62,13 @@
             'player-2': Number(slotAssignments[5]?.player) === 2
           }"
           @dragover="handleDragOver"
-          @drop="(e) => handleSlotDrop(e, 5)"
+          @drop="(e: DragEvent) => handleSlotDrop(e, 5)"
         >
           <div
             v-if="slotAssignments[5]"
             class="character-chip"
             draggable="true"
-            @dragstart="(e) => handleDragStart(e, 5)"
+            @dragstart="(e: DragEvent) => handleDragStart(e, 5)"
             @dragend="handleDragEnd"
           >
             <img :src="`/characters/${slotAssignments[5]?.image}`" 
