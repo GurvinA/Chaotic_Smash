@@ -15,4 +15,10 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     },
   },
+  ssr: {
+    noExternal: [
+      /^vuetify/,   // prevent vuetify from being externalized
+      /\.css$/,     // allow importing .css files
+    ],
+  },
 })
