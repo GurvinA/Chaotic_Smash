@@ -4,6 +4,12 @@
       <v-spacer/>
       <v-col>
         <v-btn color="buttons"
+          @click="insertions"
+          style="width:150px; height:150px; border-radius: 75px;">
+          Insert
+        </v-btn>
+        <div style="height: 16px;"></div>
+        <v-btn color="buttons"
           @click="lockIn"
           style="width:150px; height:150px; border-radius: 75px;">
           Lock In
@@ -40,6 +46,12 @@
         />
       </v-col>
       <v-col cols="2">
+        <v-btn color="buttons"
+          @click="insertions"
+          style="width:150px; height:150px; border-radius: 75px;">
+          Insert
+        </v-btn>
+        <div style="height: 16px;"></div>
         <v-btn color="buttons"
           @click="lockIn"
           style="width:150px; height:150px; border-radius: 75px;">
@@ -106,6 +118,24 @@ function lockIn() {
       selectedLocations.value = []
     }
   }
+}
+
+function insertions() {
+
+  selectedCharacters.value[0] = characters[9]
+  selectedCharacters.value[1] = characters[12]
+  selectedCharacters.value[2] = characters[17]
+  selectedCharacters.value[3] = characters[4]
+  selectedCharacters.value[4] = characters[26]
+  selectedCharacters.value[5] = characters[23]
+
+  selectedLocations.value[0] = locations[3]
+  selectedLocations.value[1] = locations[13]
+  selectedLocations.value[2] = locations[23]
+  selectedLocations.value[3] = locations[5]
+  selectedLocations.value[4] = locations[9]
+  selectedLocations.value[5] = locations[12]
+
 }
 
 
