@@ -84,8 +84,10 @@
 import { computed } from 'vue'
 import type { Character } from '@/Types'
 import { useDeckData } from '@/composables/decks'
+import { useGameStore } from '@/stores/gameStore'
 
 const { characters } = useDeckData()
+const gameStore = useGameStore()
 
 const props = defineProps<{
   selectedCharacters: (Character | null)[]
@@ -117,9 +119,25 @@ function handleSlotDrop(event: DragEvent, slotIndex: number) {
   }
 
   const updatedCharacters = [...slotAssignments.value]
-  const prevIndex = updatedCharacters.findIndex(c => c?.name === characterName)
-  if (prevIndex !== -1) {
-    updatedCharacters[prevIndex] = null
+  const source = Number(event.dataTransfer?.getData('source'))
+  const prevIndex = Number(event.dataTransfer?.getData('index'))
+
+  if (!isNaN(prevIndex) && prevIndex !== -1 && prevIndex !== slotIndex) {
+    if (source === 1 && props.selectedCharacters === gameStore.player1.characters) {
+      // within player 1 triangle
+      updatedCharacters[prevIndex] = null
+    } else if (source === 2 && props.selectedCharacters === gameStore.player2.characters) {
+      // within player 2 triangle
+      updatedCharacters[prevIndex] = null
+    } else if (source === 1) {
+      const copy = [...gameStore.player1.characters]
+      copy[prevIndex] = null
+      gameStore.player1.characters = copy
+    } else if (source === 2) {
+      const copy = [...gameStore.player2.characters]
+      copy[prevIndex] = null
+      gameStore.player2.characters = copy
+    }
   }
 
   updatedCharacters[slotIndex] = { ...character, player: owner === 0 ? 2 : owner }
@@ -137,6 +155,8 @@ function handleDragStart(event: DragEvent, slotIndex: number) {
   if (character) {
     event.dataTransfer?.setData('character', character.name)
     event.dataTransfer?.setData('player', String(character.player))
+    event.dataTransfer?.setData('index', String(slotIndex))
+    event.dataTransfer?.setData('source', String(2)) 
     if (event.target instanceof HTMLElement) {
       event.target.classList.add('dragging')
     }

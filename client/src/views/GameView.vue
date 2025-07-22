@@ -26,10 +26,13 @@
     import Board from '@/components/Board.vue'
 
     const gameStore = useGameStore()
-    console.log(gameStore.player1.characters)
-    console.log(gameStore.player1.locations)
-    console.log(gameStore.player2.characters)
-    console.log(gameStore.player2.locations)
+
+    function logGameStoreState() {
+      console.log('Player 1 Characters:', gameStore.player1.characters)
+      console.log('Player 1 Locations:', gameStore.player1.locations)
+      console.log('Player 2 Characters:', gameStore.player2.characters)
+      console.log('Player 2 Locations:', gameStore.player2.locations)
+    }
 
   </script>
   
