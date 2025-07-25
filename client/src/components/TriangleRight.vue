@@ -122,12 +122,10 @@ function handleSlotDrop(event: DragEvent, slotIndex: number) {
   const source = Number(event.dataTransfer?.getData('source'))
   const prevIndex = Number(event.dataTransfer?.getData('index'))
 
-  if (!isNaN(prevIndex) && prevIndex !== -1 && prevIndex !== slotIndex) {
+  if (!isNaN(prevIndex) && prevIndex !== -1) {
     if (source === 1 && props.selectedCharacters === gameStore.player1.characters) {
-      // within player 1 triangle
       updatedCharacters[prevIndex] = null
     } else if (source === 2 && props.selectedCharacters === gameStore.player2.characters) {
-      // within player 2 triangle
       updatedCharacters[prevIndex] = null
     } else if (source === 1) {
       const copy = [...gameStore.player1.characters]
