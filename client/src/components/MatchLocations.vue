@@ -6,20 +6,30 @@
       @dragover="handleDragOver"
       @drop="handleContainerDrop"
     >
-      <div
-        v-for="(stage, i) in selectedLocations"
-        :key="stage.name"
-        class="location-card"
-      >
-        <img 
-          :src="`/locations/${stage.image}`" 
-          alt="Location image" 
-          class="location-image" 
-        />
-        <div class="location-name">{{ stage.name }}</div>
-      </div>
+      <transition name="fade" mode="out-in">
+        <div v-if="!isVeiled" key="cards">
+          <div
+            v-for="(stage, i) in selectedLocations"
+            :key="stage.name"
+            class="location-card"
+          >
+            <img 
+              :src="`/locations/${stage.image}`" 
+              alt="Location image" 
+              class="location-image" 
+            />
+            <div class="location-name">{{ stage.name }}</div>
+          </div>
+        </div>
+
+        <div v-else key="veil" class="veil-placeholder">
+          Locations
+        </div>
+      </transition>
     </div>
-    <v-btn>Show/Hide</v-btn>
+    <v-btn @click="isVeiled = !isVeiled" class="mt-2">
+      {{ isVeiled ? 'Unveil' : 'Veil' }}
+    </v-btn>
   </v-col>
 </template>
 
@@ -105,6 +115,25 @@ function handleDragOver(event: DragEvent) {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.veil-placeholder {
+  height: 100%;
+  width: 100%;
+  background-color: black;
+  border-radius: 12px;
+  color: white;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+.fade-enter-from, .fade-leave-to {
+  opacity: 0;
 }
 
 </style>
