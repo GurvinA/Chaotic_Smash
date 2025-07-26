@@ -3,7 +3,7 @@
       <v-row class="ml-11">
         <v-col class="text-center">
           <p>Player 1 Board</p>
-          <Board 
+          <MatchBoard 
             :role="'player1'"
             v-model:selectedCharacters="gameStore.player1.characters"
             v-model:selectedLocations="gameStore.player1.locations" 
@@ -11,7 +11,7 @@
         </v-col>
         <v-col class="text-center">
           <p>Player 2 Board</p>
-          <Board 
+          <MatchBoard 
             :role="'player2'"
             v-model:selectedCharacters="gameStore.player2.characters"
             v-model:selectedLocations="gameStore.player2.locations" 
@@ -23,7 +23,7 @@
   
   <script setup lang="ts">
     import { useGameStore } from '@/stores/gameStore'
-    import Board from '@/components/Board.vue'
+    import MatchBoard from '@/components/MatchBoard.vue'
 
     const gameStore = useGameStore()
 

@@ -3,7 +3,7 @@
         <v-row justify="end" v-if="props.role === 'player1'">
             <v-col class="ml-5">
                 <div class="locations">
-                    <Locations
+                    <MatchLocations
                         :selectedLocations="selectedLocations"
                         @update:selectedLocations="onUpdateSelectedLocations"
                     />
@@ -11,7 +11,7 @@
             </v-col>
             <v-col cols="7">
                 <div class="triangle">
-                    <TriangleRight
+                    <MatchTriangleRight
                         :selectedCharacters="selectedCharacters"
                         @update:selectedCharacters="onUpdateSelectedCharacters"
                     />
@@ -21,7 +21,7 @@
         <v-row v-else>
             <v-col cols="7">
                 <div class="triangle">
-                    <TriangleLeft
+                    <MatchTriangleLeft
                         :selectedCharacters="selectedCharacters"
                         @update:selectedCharacters="onUpdateSelectedCharacters"
                     />
@@ -29,7 +29,7 @@
             </v-col>
             <v-col cols="5">
                 <div class="locations">
-                    <Locations
+                    <MatchLocations
                         :selectedLocations="selectedLocations"
                         @update:selectedLocations="onUpdateSelectedLocations"
                     />
@@ -42,9 +42,9 @@
 
 <script setup lang="ts">
 
-import TriangleLeft from './TriangleLeft.vue';
-import TriangleRight from './TriangleRight.vue';
-import Locations from './Locations.vue';
+import MatchTriangleLeft from './MatchTriangleLeft.vue';
+import MatchTriangleRight from './MatchTriangleRight.vue';
+import MatchLocations from './MatchLocations.vue';
 import type { Character, Location } from '@/Types';
 import { useDeckData } from '@/composables/decks'
 

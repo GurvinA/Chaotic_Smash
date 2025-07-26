@@ -71,7 +71,7 @@ import { ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useGameStore } from '../stores/gameStore'
 import { useDeckData } from '@/composables/decks'
-import Board from '@/components/Board.vue'
+import Board from '@/components/SelectBoard.vue'
 import SelectorDeck from '@/components/SelectorDeck.vue'
 import type { Character, Location } from '@/Types';
 

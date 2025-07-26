@@ -3,25 +3,23 @@
     <v-row justify="center">
       <v-col cols="2">
         <div
-          v-for="n in 3"
-          :key="'col1-' + n"
           class="slot-box"
           :class="{ 
-            'has-character': slotAssignments[n-1],
-            'player-1': Number(slotAssignments[n-1]?.player) === 1,
-            'player-2': Number(slotAssignments[n-1]?.player) === 2
+            'has-character': slotAssignments[5],
+            'player-1': Number(slotAssignments[5]?.player) === 1,
+            'player-2': Number(slotAssignments[5]?.player) === 2
           }"
           @dragover="handleDragOver"
-          @drop="(e: DragEvent) => handleSlotDrop(e, n-1)"
+          @drop="(e: DragEvent) => handleSlotDrop(e, 5)"
         >
           <div
-            v-if="slotAssignments[n-1]"
+            v-if="slotAssignments[5]"
             class="character-chip"
             draggable="true"
-            @dragstart="(e: DragEvent) => handleDragStart(e, n-1)"
+            @dragstart="(e: DragEvent) => handleDragStart(e, 5)"
             @dragend="handleDragEnd"
           >
-             <img :src="`/characters/${slotAssignments[n-1]?.image}`" 
+             <img :src="`/characters/${slotAssignments[5]?.image}`" 
               alt="Character image" class="card-image" />
           </div>
         </div>
@@ -55,23 +53,25 @@
 
       <v-col cols="2">
         <div
+          v-for="n in 3"
+          :key="'col1-' + n"
           class="slot-box"
           :class="{ 
-            'has-character': slotAssignments[5],
-            'player-1': Number(slotAssignments[5]?.player) === 1,
-            'player-2': Number(slotAssignments[5]?.player) === 2
+            'has-character': slotAssignments[n - 1],
+            'player-1': Number(slotAssignments[n-1]?.player) === 1,
+            'player-2': Number(slotAssignments[n-1]?.player) === 2
           }"
           @dragover="handleDragOver"
-          @drop="(e: DragEvent) => handleSlotDrop(e, 5)"
+          @drop="(e: DragEvent) => handleSlotDrop(e, n - 1)"
         >
           <div
-            v-if="slotAssignments[5]"
+            v-if="slotAssignments[n - 1]"
             class="character-chip"
             draggable="true"
-            @dragstart="(e: DragEvent) => handleDragStart(e, 5)"
+            @dragstart="(e: DragEvent) => handleDragStart(e, n - 1)"
             @dragend="handleDragEnd"
           >
-            <img :src="`/characters/${slotAssignments[5]?.image}`" 
+            <img :src="`/characters/${slotAssignments[n-1]?.image}`" 
               alt="Character image" class="card-image" />
           </div>
         </div>
@@ -115,9 +115,9 @@ function handleSlotDrop(event: DragEvent, slotIndex: number) {
   if (!character) {
     const original = characters.find(c => c.name === characterName)
     if (!original) return
-    character = { ...original, player: owner === 0 ? 2 : owner }
+    character = { ...original, player: owner === 0 ? 1 : owner }
   }
-
+  
   const updatedCharacters = [...slotAssignments.value]
   const source = Number(event.dataTransfer?.getData('source'))
   const prevIndex = Number(event.dataTransfer?.getData('index'))
@@ -138,7 +138,7 @@ function handleSlotDrop(event: DragEvent, slotIndex: number) {
     }
   }
 
-  updatedCharacters[slotIndex] = { ...character, player: owner === 0 ? 2 : owner }
+  updatedCharacters[slotIndex] = { ...character, player: owner === 0 ? 1 : owner }
 
   emit('update:selectedCharacters', updatedCharacters)
   slotAssignments.value = updatedCharacters
@@ -154,7 +154,7 @@ function handleDragStart(event: DragEvent, slotIndex: number) {
     event.dataTransfer?.setData('character', character.name)
     event.dataTransfer?.setData('player', String(character.player))
     event.dataTransfer?.setData('index', String(slotIndex))
-    event.dataTransfer?.setData('source', String(2)) 
+    event.dataTransfer?.setData('source', String(1)) 
     if (event.target instanceof HTMLElement) {
       event.target.classList.add('dragging')
     }
