@@ -42,19 +42,26 @@
 
 <script setup lang="ts">
 
+import { computed } from 'vue';
 import MatchTriangleLeft from './MatchTriangleLeft.vue';
 import MatchTriangleRight from './MatchTriangleRight.vue';
 import MatchLocations from './MatchLocations.vue';
 import type { Character, Location } from '@/Types';
 import { useDeckData } from '@/composables/decks'
+import { useGameStore } from '@/stores/gameStore';
 
 const { characters, locations } = useDeckData()
+const gameStore = useGameStore()
 
 const props = defineProps<{
   role: 'player1' | 'player2'
   selectedCharacters: (Character | null)[],
   selectedLocations: Location[]
 }>()
+
+const isCurrentPlayer =
+    (props.role === 'player1' && gameStore.turn === 1) ||
+    (props.role === 'player2' && gameStore.turn === 2)
 
 const emit = defineEmits<{
   (e: 'update:selectedCharacters', value: (Character | null)[]): void,

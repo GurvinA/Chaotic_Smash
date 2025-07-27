@@ -7,7 +7,9 @@
           :class="{ 
             'has-character': slotAssignments[5],
             'player-1': Number(slotAssignments[5]?.player) === 1,
-            'player-2': Number(slotAssignments[5]?.player) === 2
+            'player-2': Number(slotAssignments[5]?.player) === 2,
+            'active-slot': Number(slotAssignments[5]?.player) === gameStore.turn,
+            'inactive-slot': slotAssignments[5] && Number(slotAssignments[5]?.player) !== gameStore.turn
           }"
           @dragover="handleDragOver"
           @drop="(e: DragEvent) => handleSlotDrop(e, 5)"
@@ -33,7 +35,9 @@
           :class="{ 
             'has-character': slotAssignments[n+2],
             'player-1': Number(slotAssignments[n+2]?.player) === 1,
-            'player-2': Number(slotAssignments[n+2]?.player) === 2
+            'player-2': Number(slotAssignments[n+2]?.player) === 2,
+            'active-slot': Number(slotAssignments[n+2]?.player) === gameStore.turn,
+            'inactive-slot': slotAssignments[n+2] && Number(slotAssignments[n+2]?.player) !== gameStore.turn
           }"
           @dragover="handleDragOver"
           @drop="(e: DragEvent) => handleSlotDrop(e, n + 2)"
@@ -59,7 +63,9 @@
           :class="{ 
             'has-character': slotAssignments[n - 1],
             'player-1': Number(slotAssignments[n-1]?.player) === 1,
-            'player-2': Number(slotAssignments[n-1]?.player) === 2
+            'player-2': Number(slotAssignments[n-1]?.player) === 2,
+            'active-slot': Number(slotAssignments[n-1]?.player) === gameStore.turn,
+            'inactive-slot': slotAssignments[n-1] && Number(slotAssignments[n-1]?.player) !== gameStore.turn
           }"
           @dragover="handleDragOver"
           @drop="(e: DragEvent) => handleSlotDrop(e, n - 1)"
@@ -209,5 +215,16 @@ function handleDragEnd(event: DragEvent) {
 .card-image {
   height: 80px;
   width: 80px;
+}
+
+.active-slot {
+  box-shadow: 0 0 5px 2px rgba(255, 255, 255, 0.5);
+  filter: brightness(1.05);
+  z-index: 2;
+}
+
+.inactive-slot {
+  filter: brightness(0.95) grayscale(0.05);
+  z-index: 1;
 }
 </style>
