@@ -117,8 +117,6 @@
     >
       <v-tab value="characters">Characters</v-tab>
       <v-tab value="locations">Locations</v-tab>
-      <v-tab value="items">Items</v-tab>
-      <v-tab value="rules">Rules</v-tab>
     </v-tabs>
   </div>
 </template>
@@ -265,6 +263,10 @@ function handleContainerDrop(event: DragEvent) {
 
 .deck-tabs {
   border-top: 2px solid #000;
+}
+
+.deck-tabs :deep(.v-tab) {
+  margin: 0 33px;
 }
 
 .card {
