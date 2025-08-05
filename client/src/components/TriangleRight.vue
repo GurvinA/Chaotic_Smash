@@ -117,25 +117,11 @@ function handleSlotDrop(event: DragEvent, slotIndex: number) {
     if (!original) return
     character = { ...original, player: owner === 0 ? 1 : owner }
   }
-  
-  const updatedCharacters = [...slotAssignments.value]
-  const source = Number(event.dataTransfer?.getData('source'))
-  const prevIndex = Number(event.dataTransfer?.getData('index'))
 
-  if (!isNaN(prevIndex) && prevIndex !== -1) {
-    if (source === 1 && props.selectedCharacters === gameStore.player1.characters) {
-      updatedCharacters[prevIndex] = null
-    } else if (source === 2 && props.selectedCharacters === gameStore.player2.characters) {
-      updatedCharacters[prevIndex] = null
-    } else if (source === 1) {
-      const copy = [...gameStore.player1.characters]
-      copy[prevIndex] = null
-      gameStore.player1.characters = copy
-    } else if (source === 2) {
-      const copy = [...gameStore.player2.characters]
-      copy[prevIndex] = null
-      gameStore.player2.characters = copy
-    }
+  const updatedCharacters = [...slotAssignments.value]
+  const prevIndex = updatedCharacters.findIndex(c => c?.name === characterName)
+  if (prevIndex !== -1) {
+    updatedCharacters[prevIndex] = null
   }
 
   updatedCharacters[slotIndex] = { ...character, player: owner === 0 ? 1 : owner }
