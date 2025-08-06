@@ -108,10 +108,34 @@ const slotAssignments = computed<(Character | null)[]>({
   set: (newVal) => emit('update:selectedCharacters', newVal)
 })
 
+const adjacencyMap: Record<number, number[]> = {
+  0: [1, 3, 6, 7],
+  1: [0, 2, 3, 4, 6, 7, 8],
+  2: [1, 4, 7, 8],
+  3: [0, 1, 4, 5],
+  4: [1, 2, 3, 5],
+  5: [3, 4],
+  6: [0, 1, 7, 9],
+  7: [0, 1, 2, 6, 8, 9, 10],
+  8: [1, 2, 7, 10],
+  9: [6, 7, 10, 11],
+  10: [7, 8, 9, 11],
+  11: [9, 10]
+}
 
 function handleSlotDrop(event: DragEvent, slotIndex: number) {
   event.preventDefault()
   event.stopPropagation()
+  
+  const source = Number(event.dataTransfer?.getData('source'))
+  const prevIndex = Number(event.dataTransfer?.getData('index'))
+
+  const prevMapNumber = prevIndex + (6 * (source - 1))
+  const mapNumber = slotIndex
+
+  if (!adjacencyMap[prevMapNumber]?.includes(mapNumber)) {
+    return
+  }
 
   const characterName = event.dataTransfer?.getData('character')
   const owner = Number(event.dataTransfer?.getData('player'))
@@ -125,9 +149,7 @@ function handleSlotDrop(event: DragEvent, slotIndex: number) {
   }
   
   const updatedCharacters = [...slotAssignments.value]
-  const source = Number(event.dataTransfer?.getData('source'))
-  const prevIndex = Number(event.dataTransfer?.getData('index'))
-
+  
   if (!isNaN(prevIndex) && prevIndex !== -1) {
     if (source === 1 && props.selectedCharacters === gameStore.player1.characters) {
       updatedCharacters[prevIndex] = null
