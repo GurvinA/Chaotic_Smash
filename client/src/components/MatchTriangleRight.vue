@@ -137,15 +137,18 @@ function handleSlotDrop(event: DragEvent, slotIndex: number) {
     return
   }
 
+  const currOwner = slotAssignments.value[slotIndex]?.player
+  const prevOwner = Number(event.dataTransfer?.getData('player'))
+  if (currOwner === prevOwner) return
+  
   const characterName = event.dataTransfer?.getData('character')
-  const owner = Number(event.dataTransfer?.getData('player'))
   if (!characterName) return
 
   let character = props.selectedCharacters.find(c => c?.name === characterName)
   if (!character) {
     const original = characters.find(c => c.name === characterName)
     if (!original) return
-    character = { ...original, player: owner === 0 ? 1 : owner }
+    character = { ...original, player: prevOwner === 0 ? 1 : prevOwner }
   }
   
   const updatedCharacters = [...slotAssignments.value]
@@ -166,7 +169,7 @@ function handleSlotDrop(event: DragEvent, slotIndex: number) {
     }
   }
 
-  updatedCharacters[slotIndex] = { ...character, player: owner === 0 ? 1 : owner }
+  updatedCharacters[slotIndex] = { ...character, player: prevOwner === 0 ? 1 : prevOwner }
 
   emit('update:selectedCharacters', updatedCharacters)
   slotAssignments.value = updatedCharacters
