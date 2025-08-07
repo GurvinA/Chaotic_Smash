@@ -129,6 +129,9 @@ async function handleSlotDrop(event: DragEvent, slotIndex: number) {
   event.preventDefault()
   event.stopPropagation()
 
+  const playerMove = Number(event.dataTransfer?.getData('player'))
+  if (!(playerMove === gameStore.turn)) return
+
   const source = Number(event.dataTransfer?.getData('source'))
   const prevIndex = Number(event.dataTransfer?.getData('index'))
 
@@ -140,7 +143,7 @@ async function handleSlotDrop(event: DragEvent, slotIndex: number) {
   const currOwner = slotAssignments.value[slotIndex]?.player
   const prevOwner = Number(event.dataTransfer?.getData('player'))
   if (currOwner === prevOwner) return
-  
+
   const characterName = event.dataTransfer?.getData('character')
   if (!characterName) return
 
@@ -168,6 +171,7 @@ async function handleSlotDrop(event: DragEvent, slotIndex: number) {
     if (result === 'defender') {
       allowMove = false
     }
+    gameStore.toggleTurn()
   }
 
   const updatedCharacters = [...slotAssignments.value]
