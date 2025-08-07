@@ -154,15 +154,17 @@ async function handleSlotDrop(event: DragEvent, slotIndex: number) {
   let allowMove = true
 
   if (slotAssignments.value[slotIndex]) {
+    const battleLocation = 
+      source === 1 ? gameStore.player1.locations[Math.floor(Math.random() * 6)] :
+      source === 2 ? gameStore.player2.locations[Math.floor(Math.random() * 6)] :
+      null
     const attacker =
       source === 1 ? gameStore.player1.characters[prevIndex] :
       source === 2 ? gameStore.player2.characters[prevIndex] :
       null
     const defender = slotAssignments.value[slotIndex]
-    console.log(attacker?.name)
-    console.log(defender?.name)
-    if (!attacker || !defender) return
-    const result = await battleStore.open(attacker, defender)
+    if (!attacker || !defender || !battleLocation) return
+    const result = await battleStore.open(attacker, defender, battleLocation)
     if (result === 'defender') {
       allowMove = false
     }
