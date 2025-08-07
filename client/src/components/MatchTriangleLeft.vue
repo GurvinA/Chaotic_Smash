@@ -198,6 +198,8 @@ async function handleSlotDrop(event: DragEvent, slotIndex: number) {
 
   emit('update:selectedCharacters', updatedCharacters)
   slotAssignments.value = updatedCharacters
+
+  gameStore.checkGameOver()
 }
 
 function handleDragOver(event: DragEvent) {
