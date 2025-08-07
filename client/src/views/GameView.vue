@@ -9,6 +9,7 @@
             v-model:selectedLocations="gameStore.player1.locations" 
           />
         </v-col>
+        <BattleModal/>
         <v-col class="text-center">
           <p>Player 2</p>
           <MatchBoard 
@@ -26,6 +27,7 @@
   <script setup lang="ts">
     import { useGameStore } from '@/stores/gameStore'
     import MatchBoard from '@/components/MatchBoard.vue'
+    import BattleModal from '@/components/BattleModal.vue'
 
     const gameStore = useGameStore()
 

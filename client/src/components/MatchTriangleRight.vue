@@ -91,9 +91,11 @@ import { computed } from 'vue'
 import type { Character } from '@/Types'
 import { useDeckData } from '@/composables/decks'
 import { useGameStore } from '@/stores/gameStore'
+import { useBattleStore } from '@/stores/battleStore'
 
 const { characters } = useDeckData()
 const gameStore = useGameStore()
+const battleStore = useBattleStore()
 
 const props = defineProps<{
   selectedCharacters: (Character | null)[]
@@ -123,7 +125,7 @@ const adjacencyMap: Record<number, number[]> = {
   11: [9, 10]
 }
 
-function handleSlotDrop(event: DragEvent, slotIndex: number) {
+async function handleSlotDrop(event: DragEvent, slotIndex: number) {
   event.preventDefault()
   event.stopPropagation()
   
@@ -133,9 +135,7 @@ function handleSlotDrop(event: DragEvent, slotIndex: number) {
   const prevMapNumber = prevIndex + (6 * (source - 1))
   const mapNumber = slotIndex
 
-  if (!adjacencyMap[prevMapNumber]?.includes(mapNumber)) {
-    return
-  }
+  if (!adjacencyMap[prevMapNumber]?.includes(mapNumber)) return
 
   const currOwner = slotAssignments.value[slotIndex]?.player
   const prevOwner = Number(event.dataTransfer?.getData('player'))
@@ -150,7 +150,24 @@ function handleSlotDrop(event: DragEvent, slotIndex: number) {
     if (!original) return
     character = { ...original, player: prevOwner === 0 ? 1 : prevOwner }
   }
-  
+
+  let allowMove = true
+
+  if (slotAssignments.value[slotIndex]) {
+    const attacker =
+      source === 1 ? gameStore.player1.characters[prevIndex] :
+      source === 2 ? gameStore.player2.characters[prevIndex] :
+      null
+    const defender = slotAssignments.value[slotIndex]
+    console.log(attacker?.name)
+    console.log(defender?.name)
+    if (!attacker || !defender) return
+    const result = await battleStore.open(attacker, defender)
+    if (result === 'defender') {
+      allowMove = false
+    }
+  }
+
   const updatedCharacters = [...slotAssignments.value]
   
   if (!isNaN(prevIndex) && prevIndex !== -1) {
@@ -169,8 +186,10 @@ function handleSlotDrop(event: DragEvent, slotIndex: number) {
     }
   }
 
-  updatedCharacters[slotIndex] = { ...character, player: prevOwner === 0 ? 1 : prevOwner }
-
+  if (allowMove) {
+    updatedCharacters[slotIndex] = { ...character, player: prevOwner === 0 ? 1 : prevOwner }
+  }
+  
   emit('update:selectedCharacters', updatedCharacters)
   slotAssignments.value = updatedCharacters
 }
