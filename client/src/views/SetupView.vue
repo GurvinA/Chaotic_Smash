@@ -3,11 +3,11 @@
     <v-row align="center" justify="end" v-if="isPlayer1">
       <v-spacer/>
       <v-col>
-        <v-btn color="buttons"
+        <!-- <v-btn color="buttons"
           @click="insertions"
           style="width:150px; height:150px; border-radius: 75px;">
           Insert
-        </v-btn>
+        </v-btn> -->
         <div style="height: 16px;"></div>
         <v-btn color="buttons"
           @click="lockIn"
@@ -46,11 +46,11 @@
         />
       </v-col>
       <v-col cols="2">
-        <v-btn color="buttons"
+        <!-- <v-btn color="buttons"
           @click="insertions"
           style="width:150px; height:150px; border-radius: 75px;">
           Insert
-        </v-btn>
+        </v-btn> -->
         <div style="height: 16px;"></div>
         <v-btn color="buttons"
           @click="lockIn"
@@ -151,7 +151,7 @@ function insertions() {
 
 .v-row {
   margin: 10px;
-  border: 2px solid red;
+  /* border: 2px solid red; */
 }
 
 .setup-wrapper {

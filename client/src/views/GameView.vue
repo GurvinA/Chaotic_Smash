@@ -30,8 +30,8 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
-      <v-btn @click="logGameStoreState">log</v-btn>
-      <v-btn @click="gameStore.toggleTurn">turn</v-btn>
+      <!-- <v-btn @click="logGameStoreState">log</v-btn>
+      <v-btn @click="gameStore.toggleTurn">turn</v-btn> -->
     </v-container>
   </template>
   

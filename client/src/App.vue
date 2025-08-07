@@ -28,6 +28,6 @@ import { RouterLink, RouterView } from 'vue-router'
     justify-content: start;
     width: 100%;
     height: 130%;
-    border: 2px solid red;
+    /* border: 2px solid red; */
   }
 </style>
