@@ -14,7 +14,7 @@
             class="location-card"
           >
             <img 
-              :src="`/locations/${stage.image}`" 
+              :src="`${base}locations/${stage.image}`" 
               alt="Location image" 
               class="location-image" 
             />
@@ -43,6 +43,7 @@ import { useDeckData } from '@/composables/decks'
 import { ref } from 'vue'
 
 const isVeiled = ref(true)
+const base = import.meta.env.BASE_URL
 
 const { locations } = useDeckData()
 

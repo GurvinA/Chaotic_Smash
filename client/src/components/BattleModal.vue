@@ -5,14 +5,14 @@
       <v-card-text>
         <div class="character-battle">
           <div class="combatant">
-            <img :src="`/characters/${battleStore.attacker?.image}`" class="character-image" />
+            <img :src="`${base}characters/${battleStore.attacker?.image}`" class="character-image" />
             <p>{{ battleStore.attacker?.name }}</p>
           </div>
 
           <p style="margin: 0 12px; font-weight: bold;">ATTACKS</p>
 
           <div class="combatant">
-            <img :src="`/characters/${battleStore.defender?.image}`" class="character-image" />
+            <img :src="`${base}characters/${battleStore.defender?.image}`" class="character-image" />
             <p>{{ battleStore.defender?.name }}</p>
           </div>
         </div>
@@ -20,7 +20,7 @@
         <div class="location-wrapper">
             <p style="margin: 16px 0 8px 0; font-weight: bold; text-align: center; width: 100%;">in</p>
             <div class="location-display">
-            <img :src="`/locations/${battleStore.battleLocation?.image}`" class="location-image" />
+            <img :src="`${base}locations/${battleStore.battleLocation?.image}`" class="location-image" />
             <p>{{ battleStore.battleLocation?.name }}</p>
             </div>
         </div>
@@ -38,6 +38,7 @@
 <script setup lang="ts">
 import { useBattleStore } from '@/stores/battleStore'
 const battleStore = useBattleStore()
+const base = import.meta.env.BASE_URL
 </script>
 
 <style scoped>

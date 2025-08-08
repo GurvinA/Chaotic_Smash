@@ -12,7 +12,7 @@
         class="location-card"
       >
         <img 
-          :src="`/locations/${stage.image}`" 
+          :src="`${base}locations/${stage.image}`" 
           alt="Location image" 
           class="location-image" 
         />
@@ -31,6 +31,7 @@ import { defineEmits } from 'vue'
 import { useDeckData } from '@/composables/decks'
 
 const { locations } = useDeckData()
+const base = import.meta.env.BASE_URL
 
 const props = defineProps<{
   selectedLocations: Location[]

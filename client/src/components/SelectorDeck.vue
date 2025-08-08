@@ -28,7 +28,7 @@
                         @dragend="handleCardDragEnd"
                     >
                         <div class="card-frame">
-                            <img :src="`/characters/${char.image}`" alt="Character image" class="card-image" />
+                            <img :src="`${base}characters/${char.image}`" alt="Character image" class="card-image" />
                         </div>
                         <h3 class="card-name">{{ char.name }}</h3>
                         <div class="card-stats">
@@ -80,7 +80,7 @@
                         @dragstart="handleCardDragStart('location', loc, $event)"
                         @dragend="handleCardDragEnd"
                     >
-                        <img :src="`/locations/${loc.image}`" alt="Location image" class="card-image" />
+                        <img :src="`${base}locations/${loc.image}`" alt="Location image" class="card-image" />
                         <h3>{{ loc.name }}</h3>
                         <div class="stats">
                             <div
@@ -127,6 +127,7 @@ import type { Character, Location } from '@/Types'
 import { useDeckData } from '@/composables/decks'
 
 const { characters, locations } = useDeckData()
+const base = import.meta.env.BASE_URL
 
 const props = defineProps<{
   selectedCharacters: (Character | null)[]

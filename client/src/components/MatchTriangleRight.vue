@@ -21,7 +21,7 @@
             @dragstart="(e: DragEvent) => handleDragStart(e, 5)"
             @dragend="handleDragEnd"
           >
-             <img :src="`/characters/${slotAssignments[5]?.image}`" 
+             <img :src="`${base}characters/${slotAssignments[5]?.image}`" 
               alt="Character image" class="card-image" />
           </div>
         </div>
@@ -49,7 +49,7 @@
             @dragstart="(e: DragEvent) => handleDragStart(e, n + 2)"
             @dragend="handleDragEnd"
           >
-            <img :src="`/characters/${slotAssignments[n+2]?.image}`" 
+            <img :src="`${base}characters/${slotAssignments[n+2]?.image}`" 
               alt="Character image" class="card-image" />
           </div>
         </div>
@@ -77,7 +77,7 @@
             @dragstart="(e: DragEvent) => handleDragStart(e, n - 1)"
             @dragend="handleDragEnd"
           >
-            <img :src="`/characters/${slotAssignments[n-1]?.image}`" 
+            <img :src="`${base}characters/${slotAssignments[n-1]?.image}`" 
               alt="Character image" class="card-image" />
           </div>
         </div>
@@ -96,6 +96,7 @@ import { useBattleStore } from '@/stores/battleStore'
 const { characters } = useDeckData()
 const gameStore = useGameStore()
 const battleStore = useBattleStore()
+const base = import.meta.env.BASE_URL
 
 const props = defineProps<{
   selectedCharacters: (Character | null)[]
